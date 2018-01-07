@@ -95,8 +95,7 @@ public class Player {
 
         poison = new TextView(context);
         poison.setId(View.generateViewId());
-        //int leftMargin = 100;
-        //if (nbOfPlayers >= 5)
+
         int leftMargin = 20;
         poison.setLayoutParams(new RelativeLayout.LayoutParams(
                 new Double(layoutWidth * 0.4).intValue(),
