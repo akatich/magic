@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" > <!-- parent="Theme.AppCompat.Light.DarkActionBar" -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/berkshire_swash</item>
+        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+    </style>
+
+    <style name="MyActionBarTheme" >
+        <item name="android:background">#FF0000</item>
+    </style>
+
+    <style name="PlayerName">
+        <item name="android:textSize">70sp</item>
+        <item name="android:color">@android:color/darker_gray</item>
+    </style>
+
+</resources>
