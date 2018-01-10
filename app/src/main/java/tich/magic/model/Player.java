@@ -1,35 +1,22 @@
 package tich.magic.model;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.SoundPool;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.GestureDetectorCompat;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tich.magic.GameActivity;
-import tich.magic.MyDragShadowBuilder;
 import tich.magic.R;
 import tich.magic.listeners.LifeUpListener;
-import tich.magic.listeners.MyDragEventListener;
 import tich.magic.listeners.MyGestureListener;
 
 public class Player {
@@ -47,8 +34,7 @@ public class Player {
     private ImageView parcheminMilieu;
     private ImageView parcheminBas;
     private LifeUpListener lifeUpListener;
-    private GestureDetector gestureDetector;
-    View.OnTouchListener gestureListener;
+    private MyGestureListener scoreGestureListener;
 
 
 
@@ -132,8 +118,8 @@ public class Player {
         ((RelativeLayout.LayoutParams) stars.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, name.getId());
         ((RelativeLayout.LayoutParams) stars.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, name.getId());
 
-
-        final GestureDetector gdtScore = new GestureDetector(new MyGestureListener(gameActivity, this, sp, stars, claws, MyGestureListener.LIFE));
+        scoreGestureListener = new MyGestureListener(gameActivity, this, sp, stars, claws, MyGestureListener.LIFE);
+        final GestureDetector gdtScore = new GestureDetector(scoreGestureListener);
         score.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(final View view, final MotionEvent event) {
@@ -312,5 +298,13 @@ public class Player {
 
     public void setParcheminBas(ImageView parcheminBas) {
         this.parcheminBas = parcheminBas;
+    }
+
+    public MyGestureListener getScoreGestureListener() {
+        return scoreGestureListener;
+    }
+
+    public void setScoreGestureListener(MyGestureListener scoreGestureListener) {
+        this.scoreGestureListener = scoreGestureListener;
     }
 }

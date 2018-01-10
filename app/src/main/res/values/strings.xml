@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Magic</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="action_speak">speak</string>
 </resources>

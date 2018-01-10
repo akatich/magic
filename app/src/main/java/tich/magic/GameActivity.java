@@ -8,7 +8,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -17,14 +16,13 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +31,7 @@ import tich.magic.model.Player;
 
 public class GameActivity extends AppCompatActivity {
 
-    private TextView txtSpeechInput;
+    //private TextView txtSpeechInput;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private HashMap players;
     private SoundPool sp;
@@ -159,9 +157,27 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    //gère le click sur une action de l'ActionBar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_speak:
+                updateLifeSpeak();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
-    public void updateLifeSpeak(View view)
+    public void updateLifeSpeak()
     {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -189,13 +205,13 @@ public class GameActivity extends AppCompatActivity {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    txtSpeechInput.setText(result.get(0));
+                    //txtSpeechInput.setText(result.get(0));
                     try {
                         processSpeech(result.get(0));
                     }
                     catch (Exception e)
                     {
-                        txtSpeechInput.setText(result.get(0) + " - ERROR");
+                        //txtSpeechInput.setText(result.get(0) + " - ERROR");
                     }
                 }
                 break;
@@ -221,7 +237,7 @@ public class GameActivity extends AppCompatActivity {
 
         //txtSpeechInput.setText("n=" + name + ",p=" + player + ",o=" + operand + ",v=" + addedLife);
 
-        ((Player)players.get(name)).updateLife(operand, Integer.parseInt(addedLife));
+        ((Player)players.get(name)).getScoreGestureListener().updateLife(operand, Integer.parseInt(addedLife));
     }
 
     private String spellName(String spellName)
