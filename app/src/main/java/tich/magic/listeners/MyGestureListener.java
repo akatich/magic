@@ -1,8 +1,11 @@
 package tich.magic.listeners;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.media.SoundPool;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -17,16 +20,14 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 25;
-    private TextView score;
     private GameActivity gameActivity;
     private Player player;
     private SoundPool sp;
     private Animation healAnim;
     private Animation damageAnim;
-    private Animation ripAnim;
+    private Animation rollParcheminMilieuAnim;
     private ImageView healView;
     private ImageView damageView;
-    private ImageView ripView;
     private int lifeOrPoison;
     public static int LIFE = 1;
     public static int POISON = 2;
@@ -46,6 +47,9 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         damageView = claws;
         damageAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.damage);
         damageAnim.setAnimationListener(new DamageAnimationListener(player.getName(), damageView, sp, gameActivity));
+
+        rollParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.roll_parchemin_milieu);
+        rollParcheminMilieuAnim.setAnimationListener(new RipAnimationListener(player.getParcheminMilieu(), sp, gameActivity));
     }
 
     @Override
@@ -88,39 +92,71 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         // RIP
         if (currentLife <= 0)
         {
-            /*((RelativeLayout.LayoutParams)ripView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getName().getId());
-            ((RelativeLayout.LayoutParams) ripView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getLifeDown().getId());
-            ripView.startAnimation(ripAnim);*/
+            die();
         }
 
     }
 
-    public void updatePoison(String operand, int addedLife)
+    public void updatePoison(String operand, int addedPoison)
     {
-        int currentLife = Integer.parseInt(player.getPoison().getText().toString());
+        int currentPoison = Integer.parseInt(player.getPoison().getText().toString());
         if (operand.equals("+")) {
-            currentLife += addedLife;
+            currentPoison += addedPoison;
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getPoison().getId());
             healView.startAnimation(healAnim);
         }
         else {
-            currentLife -= addedLife;
+            currentPoison -= addedPoison;
             ((RelativeLayout.LayoutParams) damageView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) damageView.getLayoutParams()).addRule(RelativeLayout.ABOVE, player.getPoison().getId());
             damageView.startAnimation(damageAnim);
         }
-        player.getPoison().setText(Integer.toString(currentLife));
+        player.getPoison().setText(Integer.toString(currentPoison));
 
         // RIP
-        if (currentLife <= 0)
+        if (currentPoison >= 10)
         {
-            /*((RelativeLayout.LayoutParams)ripView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getName().getId());
-            ((RelativeLayout.LayoutParams) ripView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getLifeDown().getId());
-            ripView.startAnimation(ripAnim);*/
+            die();
         }
 
+    }
+
+    private void die()
+    {
+        player.getParcheminMilieu().startAnimation(rollParcheminMilieuAnim);
+
+        ObjectAnimator avatarAnimator = ObjectAnimator.ofFloat ( player.getAvatar() , "alpha" , 0);
+        avatarAnimator.setDuration(2000);
+        avatarAnimator.start();
+
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat ( player.getParcheminBas() , "y" , player.getParcheminMilieu().getY());
+        objectAnimator.setDuration(2000);
+        objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+                float animatedValue = (float)updatedAnimation.getAnimatedValue();
+
+                int poisonTop = ((RelativeLayout.LayoutParams)player.getPoison().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)player.getPoison().getLayoutParams()).height/2;
+                if (animatedValue <= poisonTop) {
+                    player.getPoison().setVisibility(View.INVISIBLE);
+                    player.getPoisonImage().setVisibility(View.INVISIBLE);
+                }
+
+                int scoreTop = ((RelativeLayout.LayoutParams)player.getScore().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)player.getScore().getLayoutParams()).height/2;
+                if (animatedValue <= scoreTop) {
+                    player.getScore().setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+        objectAnimator.start();
+
+        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getParcheminHaut().getY());
+        nameAnimator.setDuration(2000);
+        nameAnimator.start();
     }
 
 }

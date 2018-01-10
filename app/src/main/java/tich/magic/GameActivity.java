@@ -147,7 +147,7 @@ public class GameActivity extends AppCompatActivity {
             claws.setImageResource(R.drawable.griffes);
             claws.setVisibility(View.INVISIBLE);
 
-            Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, stars, claws);
+            Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
 
             p.attachToLayout(relativeLayout);
             relativeLayout.addView(claws);

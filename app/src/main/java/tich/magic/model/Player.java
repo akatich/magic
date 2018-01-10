@@ -43,17 +43,22 @@ public class Player {
     private Button lifeUp;
     private Button lifeDown;
     private ImageView avatar;
+    private ImageView parcheminHaut;
+    private ImageView parcheminMilieu;
+    private ImageView parcheminBas;
     private LifeUpListener lifeUpListener;
     private GestureDetector gestureDetector;
     View.OnTouchListener gestureListener;
 
 
 
-    public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView stars, ImageView claws)
+    public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView parcheminHaut, ImageView parcheminMilieu, ImageView parcheminBas, ImageView stars, ImageView claws)
     {
         this.gameActivity = gameActivity;
         Typeface typeface = ResourcesCompat.getFont(context, R.font.berkshire_swash);
-
+        this.parcheminHaut = parcheminHaut;
+        this.parcheminMilieu = parcheminMilieu;
+        this.parcheminBas = parcheminBas;
 
         name = new TextView(context);
         //name.setBackgroundColor(Color.GREEN);
@@ -275,5 +280,37 @@ public class Player {
 
     public void setPoison(TextView poison) {
         this.poison = poison;
+    }
+
+    public ImageView getParcheminHaut() {
+        return parcheminHaut;
+    }
+
+    public void setParcheminHaut(ImageView parcheminHaut) {
+        this.parcheminHaut = parcheminHaut;
+    }
+
+    public ImageView getParcheminMilieu() {
+        return parcheminMilieu;
+    }
+
+    public ImageView getPoisonImage() {
+        return poisonImage;
+    }
+
+    public void setPoisonImage(ImageView poisonImage) {
+        this.poisonImage = poisonImage;
+    }
+
+    public void setParcheminMilieu(ImageView parcheminMilieu) {
+        this.parcheminMilieu = parcheminMilieu;
+    }
+
+    public ImageView getParcheminBas() {
+        return parcheminBas;
+    }
+
+    public void setParcheminBas(ImageView parcheminBas) {
+        this.parcheminBas = parcheminBas;
     }
 }
