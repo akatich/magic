@@ -33,6 +33,7 @@ public class Player {
     private ImageView parcheminHaut;
     private ImageView parcheminMilieu;
     private ImageView parcheminBas;
+    private ImageView arrow;
     private LifeUpListener lifeUpListener;
     private MyGestureListener scoreGestureListener;
 
@@ -204,6 +205,7 @@ public class Player {
         relativeLayout.addView(score);
         relativeLayout.addView(poison);
         relativeLayout.addView(poisonImage);
+        relativeLayout.addView(arrow);
     }
 
 
@@ -306,5 +308,13 @@ public class Player {
 
     public void setScoreGestureListener(MyGestureListener scoreGestureListener) {
         this.scoreGestureListener = scoreGestureListener;
+    }
+
+    public ImageView getArrow() {
+        return arrow;
+    }
+
+    public void setArrow(ImageView arrow) {
+        this.arrow = arrow;
     }
 }

@@ -6,4 +6,9 @@
         android:icon="@android:drawable/ic_btn_speak_now"
         android:title="@string/action_speak"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_first_player"
+        android:icon="@drawable/first_player"
+        android:title="@string/action_first_player"
+        app:showAsAction="ifRoom" />
 </menu>

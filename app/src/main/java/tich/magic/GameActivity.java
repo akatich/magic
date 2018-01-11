@@ -4,28 +4,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import android.animation.ObjectAnimator;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ViewFlipper;
 
 import tich.magic.model.Player;
 
@@ -35,6 +43,9 @@ public class GameActivity extends AppCompatActivity {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private HashMap players;
     private SoundPool sp;
+    private ViewFlipper firstPlayer;
+    public int flipSound;
+    private int playSound;
 
 
     @Override
@@ -62,10 +73,37 @@ public class GameActivity extends AppCompatActivity {
         {
             sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         }
+        flipSound = sp.load(this, R.raw.select, 1);
+        playSound = sp.load(this, R.raw.gong, 1);
 
         // retrieve players info
         players = new HashMap();
         String[] selectedPlayerNames = getIntent().getStringArrayExtra(MainActivity.SELECTED_PLAYERS);
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+        int tailleParcheminHaut = 60;
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(displaymetrics);
+        int screenWidth = displaymetrics.widthPixels;
+        int screenHeight = displaymetrics.heightPixels;
+        int layoutWidth = (screenWidth / selectedPlayerNames.length);
+        int layoutHeight = screenHeight - actionBarHeight;
+
+        firstPlayer = new ViewFlipper(this);
+        firstPlayer.setLayoutParams(new RelativeLayout.LayoutParams(
+                screenWidth / 3,
+                new Double(layoutHeight * 0.9).intValue()));
+        firstPlayer.setBackgroundColor(Color.WHITE);
+        ((RelativeLayout.LayoutParams) firstPlayer.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        firstPlayer.setVisibility(View.INVISIBLE);
+
+        RelativeLayout parentGameLayout = findViewById(R.id.parent_game_layout);
         LinearLayout gameLayout = findViewById(R.id.game_layout);
         for (int i=0; i<selectedPlayerNames.length; i++)
         {
@@ -76,25 +114,6 @@ public class GameActivity extends AppCompatActivity {
                     0,
                     RelativeLayout.LayoutParams.MATCH_PARENT, (float) 1.0));
             ((LinearLayout.LayoutParams)relativeLayout.getLayoutParams()).setMargins(20, 20, 20, 20);
-            //relativeLayout.setBackgroundResource(R.drawable.parchemin);
-            //relativeLayout.setBackgroundColor(Color.BLUE);
-
-            TypedValue tv = new TypedValue();
-            int actionBarHeight = 0;
-            if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-            {
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-            }
-            int tailleParcheminHaut = 60;
-
-            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            DisplayMetrics displaymetrics = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(displaymetrics);
-            int screenWidth = displaymetrics.widthPixels;
-            int screenHeight = displaymetrics.heightPixels;
-            int layoutWidth = (screenWidth / selectedPlayerNames.length);
-            int layoutHeight = screenHeight - actionBarHeight;
-
 
             ImageView parcheminHaut = new ImageView(this);
             parcheminHaut.setId(View.generateViewId());
@@ -102,7 +121,6 @@ public class GameActivity extends AppCompatActivity {
             parcheminHaut.setLayoutParams(new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     tailleParcheminHaut));
-            //parcheminHaut.setBackgroundColor(Color.GREEN);
 
             ImageView parcheminMilieu = new ImageView(this);
             parcheminMilieu.setId(View.generateViewId());
@@ -110,7 +128,6 @@ public class GameActivity extends AppCompatActivity {
             parcheminMilieu.setLayoutParams(new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     layoutHeight - 2*tailleParcheminHaut - 100));
-            //parcheminMilieu.setBackgroundColor(Color.WHITE);
 
 
             ImageView parcheminBas = new ImageView(this);
@@ -154,7 +171,37 @@ public class GameActivity extends AppCompatActivity {
             gameLayout.addView(relativeLayout);
 
             players.put(name.toLowerCase(), p);
+
+            // add player data to firstPlayer view
+            RelativeLayout playerNameAndAvatar = new RelativeLayout(this);
+
+            ImageView playerAvatar = new ImageView(this);
+            playerAvatar.setId(View.generateViewId());
+            playerAvatar.setLayoutParams(new RelativeLayout.LayoutParams(
+                    (int) (layoutWidth * 0.6),
+                    (int) (layoutWidth * 0.6)));
+            playerAvatar.setImageResource(getResources().getIdentifier("avatar_" + name.toLowerCase(), "drawable", getApplicationContext().getPackageName()) );
+            ((RelativeLayout.LayoutParams) playerAvatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            playerNameAndAvatar.addView(playerAvatar);
+
+            TextView playerName = new TextView(this);
+            playerName.setId(View.generateViewId());
+            playerName.setText(name);
+            playerName.setLayoutParams(new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT));
+            playerName.setGravity(Gravity.CENTER_HORIZONTAL);
+            playerName.setTypeface(ResourcesCompat.getFont(this, R.font.berkshire_swash));
+            playerName.setTextSize(50);
+            playerName.setTextColor(Color.DKGRAY);
+            ((RelativeLayout.LayoutParams) playerName.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            playerNameAndAvatar.addView(playerName);
+
+            firstPlayer.addView(playerNameAndAvatar);
         }
+
+        parentGameLayout.addView(firstPlayer);
+
     }
 
     @Override
@@ -170,6 +217,9 @@ public class GameActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_speak:
                 updateLifeSpeak();
+                return true;
+            case R.id.action_first_player:
+                chooseFirstPlayer();
                 return true;
         }
 
@@ -257,6 +307,42 @@ public class GameActivity extends AppCompatActivity {
             return "mathys";
 
         return spellName;
+    }
+
+    public void chooseFirstPlayer()
+    {
+        firstPlayer.setVisibility(View.VISIBLE);
+        firstPlayer.setFlipInterval(500);
+        firstPlayer.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
+        firstPlayer.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+        firstPlayer.getOutAnimation().setAnimationListener(new Animation.AnimationListener() {
+
+            int flipCount = 0;
+            int flipStop = (int) (10 + Math.random()*10);
+
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                flipCount++;
+                sp.play(flipSound, 1, 1, 1, 0, 1f);
+                if (flipCount > flipStop) {
+                    firstPlayer.stopFlipping();
+                    sp.play(playSound, 1, 1, 1, 0, 1f);
+                    ObjectAnimator flipOutAnimator = ObjectAnimator.ofFloat ( firstPlayer , "alpha" , 0);
+                    flipOutAnimator.setDuration(2000);
+                    flipOutAnimator.setStartDelay(3000);
+                    flipOutAnimator.start();
+                }
+            }
+
+        });
+        firstPlayer.startFlipping();
+
     }
 
     public void returnMenu(View v)

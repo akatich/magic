@@ -6,12 +6,18 @@
     android:layout_height="match_parent"
     tools:context="tich.magic.GameActivity">
 
-    <LinearLayout
-        android:id="@+id/game_layout"
+    <RelativeLayout
+        android:id="@+id/parent_game_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/tile_background"
-        android:orientation="horizontal"
-        android:tileMode="repeat"></LinearLayout>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/game_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/tile_background"
+            android:orientation="horizontal"
+            android:tileMode="repeat"></LinearLayout>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
