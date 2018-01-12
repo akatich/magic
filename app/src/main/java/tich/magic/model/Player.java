@@ -205,7 +205,6 @@ public class Player {
         relativeLayout.addView(score);
         relativeLayout.addView(poison);
         relativeLayout.addView(poisonImage);
-        relativeLayout.addView(arrow);
     }
 
 
