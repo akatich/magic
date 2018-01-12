@@ -3,6 +3,7 @@ package tich.magic;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
 import android.animation.ObjectAnimator;
 import android.content.ActivityNotFoundException;
@@ -55,7 +56,6 @@ public class GameActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
 
-
         //txtSpeechInput = findViewById(R.id.txt_speech_input);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -99,9 +99,8 @@ public class GameActivity extends AppCompatActivity {
         firstPlayer.setLayoutParams(new RelativeLayout.LayoutParams(
                 screenWidth / 3,
                 new Double(layoutHeight * 0.9).intValue()));
-        firstPlayer.setBackgroundColor(Color.WHITE);
         ((RelativeLayout.LayoutParams) firstPlayer.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        firstPlayer.setVisibility(View.INVISIBLE);
+        firstPlayer.setAlpha(0);
 
         RelativeLayout parentGameLayout = findViewById(R.id.parent_game_layout);
         LinearLayout gameLayout = findViewById(R.id.game_layout);
@@ -174,6 +173,11 @@ public class GameActivity extends AppCompatActivity {
 
             // add player data to firstPlayer view
             RelativeLayout playerNameAndAvatar = new RelativeLayout(this);
+            Random rand = new Random();
+            int r = rand.nextInt(255);
+            int g = rand.nextInt(255);
+            int b = rand.nextInt(255);
+            playerNameAndAvatar.setBackgroundColor(Color.rgb(r,g,b));
 
             ImageView playerAvatar = new ImageView(this);
             playerAvatar.setId(View.generateViewId());
@@ -311,10 +315,10 @@ public class GameActivity extends AppCompatActivity {
 
     public void chooseFirstPlayer()
     {
-        firstPlayer.setVisibility(View.VISIBLE);
+        firstPlayer.setAlpha(1);
         firstPlayer.setFlipInterval(500);
-        firstPlayer.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
-        firstPlayer.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+        firstPlayer.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.flip_in));
+        firstPlayer.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.flip_out));
         firstPlayer.getOutAnimation().setAnimationListener(new Animation.AnimationListener() {
 
             int flipCount = 0;
