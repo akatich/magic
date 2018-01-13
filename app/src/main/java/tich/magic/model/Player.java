@@ -108,7 +108,7 @@ public class Player {
         poisonImage.setForegroundGravity(Gravity.CENTER);
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, poison.getId());
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, poison.getId());
-        poisonImage.setImageResource(R.drawable.fiole_poison);
+        poisonImage.setImageResource(R.drawable.flacon_poison);
 
         //((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).width = (screenWidth / nbOfPlayers) - 200;
         //((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).height = ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).width;

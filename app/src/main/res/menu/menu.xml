@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_first_player"
-        android:icon="@drawable/first_player"
+        android:icon="@drawable/player_random_select"
         android:title="@string/action_first_player"
         app:showAsAction="ifRoom" />
 </menu>
