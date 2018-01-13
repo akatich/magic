@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -177,7 +178,19 @@ public class GameActivity extends AppCompatActivity {
             int r = rand.nextInt(255);
             int g = rand.nextInt(255);
             int b = rand.nextInt(255);
-            playerNameAndAvatar.setBackgroundColor(Color.rgb(r,g,b));
+            //playerNameAndAvatar.setBackgroundColor(Color.rgb(r,g,b));
+            GradientDrawable shape =  new GradientDrawable();
+            shape.setCornerRadius( 35 );
+            //shape.setColor(Color.rgb(r,g,b));
+            shape.setColors(new int[]{
+                    Color.WHITE,
+                    Color.rgb(r,g,b)
+            });
+            shape.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+            shape.setGradientRadius(screenWidth / 4);
+            shape.setShape(GradientDrawable.RECTANGLE);
+            shape.setStroke(4, Color.BLACK);
+            playerNameAndAvatar.setBackground(shape);
 
             ImageView playerAvatar = new ImageView(this);
             playerAvatar.setId(View.generateViewId());
@@ -322,7 +335,7 @@ public class GameActivity extends AppCompatActivity {
         firstPlayer.getOutAnimation().setAnimationListener(new Animation.AnimationListener() {
 
             int flipCount = 0;
-            int flipStop = (int) (10 + Math.random()*10);
+            int flipStop = (int) (6 + Math.random()*10);
 
             @Override
             public void onAnimationStart(Animation animation) {}
