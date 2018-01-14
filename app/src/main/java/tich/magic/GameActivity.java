@@ -373,7 +373,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void changeOptions()
     {
-        OptionsDialog dialog = new OptionsDialog();
+        OptionsDialog dialog = new OptionsDialog(this);
         dialog.show(getSupportFragmentManager(), "od");
     }
 

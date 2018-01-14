@@ -19,4 +19,10 @@
         <item name="android:color">@android:color/darker_gray</item>
     </style>
 
+    <style name="myText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/berkshire_swash</item>
+        <item name="android:color">@android:color/darker_gray</item>
+    </style>
+
 </resources>

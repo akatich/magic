@@ -10,11 +10,21 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class OptionsDialog extends DialogFragment {
+
+    private GameActivity activity;
+
+    public OptionsDialog(GameActivity activity)
+    {
+        super();
+        this.activity = activity;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -71,7 +81,7 @@ public class OptionsDialog extends DialogFragment {
         return dialog;
     }
 
-    public void ok()
+    public void ok(View v)
     {
 
     }
