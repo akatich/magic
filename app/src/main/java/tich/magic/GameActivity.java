@@ -6,11 +6,14 @@ import java.util.Locale;
 import java.util.Random;
 
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -19,6 +22,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -56,6 +61,8 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
 
         //txtSpeechInput = findViewById(R.id.txt_speech_input);
 
@@ -238,6 +245,9 @@ public class GameActivity extends AppCompatActivity {
             case R.id.action_first_player:
                 chooseFirstPlayer();
                 return true;
+            case R.id.action_options:
+                changeOptions();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -360,6 +370,12 @@ public class GameActivity extends AppCompatActivity {
         });
         firstPlayer.startFlipping();
 
+    }
+
+    public void changeOptions()
+    {
+        OptionsDialog dialog = new OptionsDialog();
+        dialog.show(getSupportFragmentManager(), "od");
     }
 
     public void returnMenu(View v)

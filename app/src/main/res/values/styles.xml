@@ -14,8 +14,9 @@
         <item name="android:background">#FF0000</item>
     </style>
 
-    <style name="PlayerName">
-        <item name="android:textSize">70sp</item>
+    <style name="myText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/berkshire_swash</item>
         <item name="android:color">@android:color/darker_gray</item>
     </style>
 
