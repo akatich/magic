@@ -3,12 +3,17 @@
 
     <item
         android:id="@+id/action_speak"
-        android:icon="@android:drawable/ic_btn_speak_now"
+        android:icon="@drawable/micro"
         android:title="@string/action_speak"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_first_player"
         android:icon="@drawable/player_random_select"
         android:title="@string/action_first_player"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_options"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/options"
         app:showAsAction="ifRoom" />
 </menu>
