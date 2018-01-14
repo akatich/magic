@@ -23,10 +23,6 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
-<<<<<<< HEAD
-=======
-import android.support.v7.app.AlertDialog;
->>>>>>> 58525402897af8e0d0f0a3d51b1a692a332f10a3
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -77,7 +73,7 @@ public class GameActivity extends AppCompatActivity {
                     .build();
             sp = new SoundPool.Builder()
                     .setAudioAttributes(attr)
-                    .setMaxStreams(5)
+                    .setMaxStreams(10)
                     .build();
         }
         else
