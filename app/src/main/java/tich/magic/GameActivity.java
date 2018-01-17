@@ -6,10 +6,8 @@ import java.util.Locale;
 import java.util.Random;
 
 import android.animation.ObjectAnimator;
-import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -39,14 +37,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
 import tich.magic.model.Player;
 
 public class GameActivity extends AppCompatActivity {
 
-    //private TextView txtSpeechInput;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private HashMap players;
     private SoundPool sp;
@@ -63,8 +59,6 @@ public class GameActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
-
-        //txtSpeechInput = findViewById(R.id.txt_speech_input);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
@@ -128,7 +122,7 @@ public class GameActivity extends AppCompatActivity {
             parcheminHaut.setLayoutParams(new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     tailleParcheminHaut));
-//test
+
             ImageView parcheminMilieu = new ImageView(this);
             parcheminMilieu.setId(View.generateViewId());
             parcheminMilieu.setBackgroundResource(R.drawable.parchemin_milieu);
@@ -185,10 +179,8 @@ public class GameActivity extends AppCompatActivity {
             int r = rand.nextInt(255);
             int g = rand.nextInt(255);
             int b = rand.nextInt(255);
-            //playerNameAndAvatar.setBackgroundColor(Color.rgb(r,g,b));
             GradientDrawable shape =  new GradientDrawable();
             shape.setCornerRadius( 35 );
-            //shape.setColor(Color.rgb(r,g,b));
             shape.setColors(new int[]{
                     Color.WHITE,
                     Color.rgb(r,g,b)
@@ -288,7 +280,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     catch (Exception e)
                     {
-                        //txtSpeechInput.setText(result.get(0) + " - ERROR");
+
                     }
                 }
                 break;
@@ -311,8 +303,6 @@ public class GameActivity extends AppCompatActivity {
         // identify value
         if (addedLife.indexOf(".") > 0)
             addedLife = addedLife.substring(0, addedLife.indexOf("."));
-
-        //txtSpeechInput.setText("n=" + name + ",p=" + player + ",o=" + operand + ",v=" + addedLife);
 
         ((Player)players.get(name)).getScoreGestureListener().updateLife(operand, Integer.parseInt(addedLife));
     }
