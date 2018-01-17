@@ -36,12 +36,12 @@ public class LifeUpListener implements View.OnClickListener {
         //healView = gameActivity.findViewById(R.id.stars);
         healView.getLayoutParams().width = 300;
         healAnim = AnimationUtils.loadAnimation(context, R.anim.heal);
-        healAnim.setAnimationListener(new HealAnimationListener(player.getName(), healView, sp, context));
+        healAnim.setAnimationListener(new HealAnimationListener(player.getName(), healView, sp, gameActivity));
 
         //damageView = gameActivity.findViewById(R.id.claws);
         damageView.getLayoutParams().width = 300;
         damageAnim = AnimationUtils.loadAnimation(context, R.anim.damage);
-        damageAnim.setAnimationListener(new DamageAnimationListener(player.getName(), damageView, sp, context));
+        damageAnim.setAnimationListener(new DamageAnimationListener(player.getName(), damageView, sp, gameActivity));
 
         //ripView = gameActivity.findViewById(R.id.rip);
         /*ripView = new ImageView(gameActivity);

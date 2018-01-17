@@ -1,72 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/options_dialog_layout"
+    <TextView
+        android:id="@+id/textView"
+        style="@style/myText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_horizontal"
+        android:text="@string/options"
+        android:textSize="20sp" />
 
-        <LinearLayout
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/parchemin_haut"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/parchemin_milieu"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView3"
                 style="@style/myText"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/options"
-                android:textSize="20sp" />
+                android:layout_marginLeft="100dp"
+                android:text="@string/sound" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <ToggleButton
+                android:id="@+id/toggle_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ToggleButton" />
 
-                <Button
-                    android:id="@+id/options_cancel"
-                    style="@style/myText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:text="@string/cancel" />
+            <ImageView
+                android:id="@+id/img_sound"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="100dp"
+                android:src="@drawable/avec_son" />
+        </TableRow>
 
-                <Button
-                    android:id="@+id/button2"
-                    style="@style/myText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:text="@string/ok" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/parchemin_bas"
-            android:orientation="vertical">
+            android:layout_height="match_parent" />
 
-        </LinearLayout>
+    </TableLayout>
 
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

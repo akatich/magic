@@ -34,10 +34,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String PLAYER_NAMES = "tich.magic.player_names";
     public final static String SELECTED_PLAYERS = "tich.magic.selected_players";
     private Typeface typeface = null;
-    private SharedPreferences preferences = null;
     private String allPlayers = "";
     private ArrayList<String> allPlayersList = new ArrayList<String>();
     private LinearLayout playersLayout = null;
@@ -49,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v)
         {
-            sp.play(removeSound, 1, 1, 1, 0, 1f);
+            if (Preferences.getPreferences().hasSound())
+                sp.play(removeSound, 1, 1, 1, 0, 1f);
 
             TableRow r = (TableRow)v.getParent();
 
@@ -60,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 allPlayers += s + ";";
             }
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(PLAYER_NAMES, allPlayers);
-            editor.commit();
+            Preferences.getPreferences().savePlayerNames(allPlayers);
 
             ((TableLayout)findViewById(R.id.all_players)).removeView(r);
 
@@ -72,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v)
         {
-            sp.play(selectSound, 1, 1, 1, 0, 1f);
+            if (Preferences.getPreferences().hasSound())
+                sp.play(selectSound, 1, 1, 1, 0, 1f);
 
             TextView tv = (TextView) v;
             TableRow tr = (TableRow) tv.getParent();
@@ -98,12 +96,10 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
 
-
         typeface = ResourcesCompat.getFont(this, R.font.berkshire_swash);
         playersLayout = findViewById(R.id.all_players);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        allPlayers = preferences.getString(PLAYER_NAMES, "");
+        allPlayers = Preferences.getPreferences(this).getPlayerNames();
         for (String s : allPlayers.split(";"))
         {
             allPlayersList.add(s);
@@ -151,11 +147,8 @@ public class MainActivity extends AppCompatActivity {
         String newPlayer = ((EditText)findViewById(R.id.new_player)).getText().toString().trim();
 
         if (!newPlayer.equals("")) {
-            SharedPreferences.Editor editor = preferences.edit();
             allPlayers += newPlayer + ";";
-
-            editor.putString(PLAYER_NAMES, allPlayers);
-            editor.commit();
+            Preferences.getPreferences().savePlayerNames(allPlayers);
             addPlayer(newPlayer);
 
             ((EditText)findViewById(R.id.new_player)).setText("");
@@ -223,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (selectedPlayers.size() >= 2)
         {
-            sp.play(playSound, 1, 1, 1, 0, 1f);
+            if (Preferences.getPreferences().hasSound())
+                sp.play(playSound, 1, 1, 1, 0, 1f);
 
             Intent gameIntent = new Intent(this, GameActivity.class);
             String[] selectedPlayersArray = new String[selectedPlayers.size()];

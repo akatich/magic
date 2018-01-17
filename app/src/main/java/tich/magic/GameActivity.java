@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
 import tich.magic.model.Player;
@@ -355,10 +356,12 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 flipCount++;
-                sp.play(flipSound, 1, 1, 1, 0, 1f);
+                if (Preferences.getPreferences().hasSound())
+                    sp.play(flipSound, 1, 1, 1, 0, 1f);
                 if (flipCount > flipStop) {
                     firstPlayer.stopFlipping();
-                    sp.play(playSound, 1, 1, 1, 0, 1f);
+                    if (Preferences.getPreferences().hasSound())
+                        sp.play(playSound, 1, 1, 1, 0, 1f);
                     ObjectAnimator flipOutAnimator = ObjectAnimator.ofFloat ( firstPlayer , "alpha" , 0);
                     flipOutAnimator.setDuration(2000);
                     flipOutAnimator.setStartDelay(3000);
@@ -398,4 +401,5 @@ public class GameActivity extends AppCompatActivity {
     public void setSp(SoundPool sp) {
         this.sp = sp;
     }
+
 }

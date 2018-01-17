@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import tich.magic.GameActivity;
+import tich.magic.Preferences;
 import tich.magic.R;
 
 public class RipAnimationListener implements Animation.AnimationListener {
@@ -15,18 +17,21 @@ public class RipAnimationListener implements Animation.AnimationListener {
     ImageView parcheminMilieu;
     SoundPool sp;
     int ripSound;
+    GameActivity gameActivity;
 
-    public RipAnimationListener(ImageView parcheminMilieu, SoundPool sp, Context context)
+    public RipAnimationListener(ImageView parcheminMilieu, SoundPool sp, GameActivity gameActivity)
     {
         this.parcheminMilieu = parcheminMilieu;
         this.sp = sp;
-        ripSound = sp.load(context, R.raw.evil_laugh, 1);
+        this.gameActivity = gameActivity;
+        ripSound = sp.load(gameActivity, R.raw.evil_laugh, 1);
     }
 
     @Override
     public void onAnimationStart(Animation anim)
     {
-        sp.play(ripSound, 1, 1, 1, 0, 1f);
+        if (Preferences.getPreferences().hasSound())
+            sp.play(ripSound, 1, 1, 1, 0, 1f);
     }
 
     @Override

@@ -2,9 +2,11 @@ package tich.magic;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
@@ -12,12 +14,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class OptionsDialog extends DialogFragment {
 
     private GameActivity activity;
+
 
     public OptionsDialog(GameActivity activity)
     {
@@ -27,16 +34,42 @@ public class OptionsDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-        //LayoutInflater inflater = getActivity().getLayoutInflater();
-        //builder.setView(inflater.inflate(R.layout.dialog_options, null));
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View optView = inflater.inflate(R.layout.dialog_options, null);
+        builder.setView(optView);
+        AlertDialog dialog = builder.create();
 
+        final ToggleButton toggleSound = optView.findViewById(R.id.toggle_sound);
+        final ImageView imgSound = optView.findViewById(R.id.img_sound);
+        toggleSound.setOnClickListener(new View.OnClickListener()  {
+            @Override
+            public void onClick(View v)
+            {
+                if (toggleSound.isChecked())
+                {
+                    imgSound.setImageResource(R.drawable.avec_son);
+                }
+                else
+                {
+                    imgSound.setImageResource(R.drawable.sans_son);
+                }
+            }
+        });
+
+        if (Preferences.getPreferences().hasSound()) {
+            toggleSound.setChecked(true);
+            imgSound.setImageResource(R.drawable.avec_son);
+        }
+        else {
+            toggleSound.setChecked(false);
+            imgSound.setImageResource(R.drawable.sans_son);
+        }
 
         //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        Typeface typeface = ResourcesCompat.getFont(getActivity(), R.font.berkshire_swash);
+        /*Typeface typeface = ResourcesCompat.getFont(getActivity(), R.font.berkshire_swash);
 
         TextView title = new TextView(getActivity());
         //title.setBackgroundColor(Color.BLUE);
@@ -48,11 +81,17 @@ public class OptionsDialog extends DialogFragment {
         builder.setCustomTitle(title);
 
 
-        AlertDialog dialog = builder.create();
+        AlertDialog dialog = builder.create();*/
 
         dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
+                if (toggleSound.isChecked()) {
+                    Preferences.getPreferences().saveOptionSound(true);
+                }
+                else {
+                    Preferences.getPreferences().saveOptionSound(false);
+                }
             }
         });
         dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Annuler", new DialogInterface.OnClickListener() {

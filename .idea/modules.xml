@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\David\StudioProjects\magic\app\app.iml" filepath="C:\Users\David\StudioProjects\magic\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/magic.iml" filepath="$PROJECT_DIR$/magic.iml" />
-      <module fileurl="file://C:\Users\David\StudioProjects\magic\magic.iml" filepath="C:\Users\David\StudioProjects\magic\magic.iml" />
     </modules>
   </component>
 </project>
