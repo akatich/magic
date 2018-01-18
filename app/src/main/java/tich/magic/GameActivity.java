@@ -395,6 +395,24 @@ public class GameActivity extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), "od");
     }
 
+    public void displayPoison()
+    {
+        Iterator iter = players.values().iterator();
+        while (iter.hasNext()) {
+            Player p = (Player) iter.next();
+            p.displayPoison();
+        }
+    }
+
+    public void hidePoison()
+    {
+        Iterator iter = players.values().iterator();
+        while (iter.hasNext()) {
+            Player p = (Player) iter.next();
+            p.hidePoison();
+        }
+    }
+
     public void returnMenu(View v)
     {
         Intent returnIntent = new Intent(this, MainActivity.class);

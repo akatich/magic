@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tich.magic.GameActivity;
+import tich.magic.Preferences;
 import tich.magic.R;
 import tich.magic.listeners.LifeUpListener;
 import tich.magic.listeners.MyGestureListener;
@@ -211,8 +212,23 @@ public class Player {
         relativeLayout.addView(score);
         relativeLayout.addView(poison);
         relativeLayout.addView(poisonImage);
+        if (!Preferences.getPreferences().hasPoison())
+        {
+            hidePoison();
+        }
     }
 
+    public void displayPoison()
+    {
+        poison.setVisibility(View.VISIBLE);
+        poisonImage.setVisibility(View.VISIBLE);
+    }
+
+    public void hidePoison()
+    {
+        poison.setVisibility(View.INVISIBLE);
+        poisonImage.setVisibility(View.INVISIBLE);
+    }
 
     public int getId() {
         return id;

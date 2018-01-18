@@ -10,13 +10,16 @@ public class Preferences {
     private static Preferences myPreferences = null;
     private final static String PLAYER_NAMES = "tich.magic.player_names";
     private final static String OPTION_SOUND = "tich.magic.sound";
+    private final static String OPTION_POISON = "tich.magic.poison";
     private String playerNames;
     private boolean sound;
+    private boolean poison;
 
     private Preferences()
     {
         playerNames = loadPlayerNames();
         sound = loadOptionSound();
+        poison = loadOptionPoison();
     }
 
     public static synchronized Preferences getPreferences()
@@ -69,5 +72,26 @@ public class Preferences {
     public boolean hasSound()
     {
         return sound;
+    }
+
+    private boolean loadOptionPoison()
+    {
+        String optionPoison = sharedPreferences.getString(OPTION_POISON, "false");
+        if (optionPoison.equals("true"))
+            return true;
+        return false;
+    }
+
+    public void saveOptionPoison(boolean hasPoison)
+    {
+        poison = hasPoison;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(OPTION_POISON, String.valueOf(hasPoison));
+        editor.commit();
+    }
+
+    public boolean hasPoison()
+    {
+        return poison;
     }
 }

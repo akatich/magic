@@ -50,7 +50,6 @@ public class OptionsDialog extends DialogFragment {
                 }
             }
         });
-
         if (Preferences.getPreferences().hasSound()) {
             toggleSound.setChecked(true);
             imgSound.setImageResource(R.drawable.avec_son);
@@ -58,6 +57,31 @@ public class OptionsDialog extends DialogFragment {
         else {
             toggleSound.setChecked(false);
             imgSound.setImageResource(R.drawable.sans_son);
+        }
+
+        final ToggleButton togglePoison = optView.findViewById(R.id.toggle_poison);
+        final ImageView imgPoison = optView.findViewById(R.id.img_poison);
+        togglePoison.setOnClickListener(new View.OnClickListener()  {
+            @Override
+            public void onClick(View v)
+            {
+                if (togglePoison.isChecked())
+                {
+                    imgPoison.setImageResource(R.drawable.flacon_poison);
+                }
+                else
+                {
+                    imgSound.setImageResource(R.drawable.flacon_poison);
+                }
+            }
+        });
+        if (Preferences.getPreferences().hasPoison()) {
+            togglePoison.setChecked(true);
+            imgPoison.setImageResource(R.drawable.flacon_poison);
+        }
+        else {
+            togglePoison.setChecked(false);
+            imgPoison.setImageResource(R.drawable.flacon_poison);
         }
 
         dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
@@ -68,6 +92,15 @@ public class OptionsDialog extends DialogFragment {
                 }
                 else {
                     Preferences.getPreferences().saveOptionSound(false);
+                }
+
+                if (togglePoison.isChecked()) {
+                    Preferences.getPreferences().saveOptionPoison(true);
+                    activity.displayPoison();
+                }
+                else {
+                    Preferences.getPreferences().saveOptionPoison(false);
+                    activity.hidePoison();
                 }
             }
         });
