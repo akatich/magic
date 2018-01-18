@@ -65,10 +65,6 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
                 updateLife("+", 1);
             else if (lifeOrPoison == POISON)
                 updatePoison("+", 1);
-            else if (lifeOrPoison == NAME)
-            {
-
-            }
             return false; // Bottom to top
         }
         else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY)
