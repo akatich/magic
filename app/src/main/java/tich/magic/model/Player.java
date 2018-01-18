@@ -110,9 +110,6 @@ public class Player {
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, poison.getId());
         poisonImage.setImageResource(R.drawable.flacon_poison);
 
-        //((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).width = (screenWidth / nbOfPlayers) - 200;
-        //((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).height = ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).width;
-
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ABOVE, name.getId());
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, name.getId());
         ((RelativeLayout.LayoutParams) stars.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, name.getId());
@@ -141,6 +138,15 @@ public class Player {
             @Override
             public boolean onTouch(final View view, final MotionEvent event) {
                 gdtPoison.onTouchEvent(event);
+                return true;
+            }
+        });
+
+        final GestureDetector gdtName = new GestureDetector(new MyGestureListener(gameActivity, this, sp, stars, claws, MyGestureListener.NAME));
+        name.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View view, final MotionEvent event) {
+                gdtName.onTouchEvent(event);
                 return true;
             }
         });
