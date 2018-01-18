@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
+        initSound();
+
         typeface = ResourcesCompat.getFont(this, R.font.berkshire_swash);
         playersLayout = findViewById(R.id.all_players);
 
@@ -115,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
                 Color.CYAN,         // Glow Color (int)
                 1);                 // Glowing Transition Speed (Range of 1 to 10)  (fast ... slow)
 
+        // remove the focus on new player at start
+        findViewById(R.id.rel_play_layout).requestFocus();
+    }
+
+    private void initSound()
+    {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             AudioAttributes attr = new AudioAttributes.Builder()
@@ -133,9 +141,6 @@ public class MainActivity extends AppCompatActivity {
         selectSound = sp.load(this, R.raw.select, 1);
         removeSound = sp.load(this, R.raw.remove, 1);
         playSound = sp.load(this, R.raw.gong, 1);
-
-        // remove the focus on new player at start
-        findViewById(R.id.rel_play_layout).requestFocus();
     }
 
     public void createPlayer(View view)

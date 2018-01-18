@@ -60,23 +60,7 @@ public class GameActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            AudioAttributes attr = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-            sp = new SoundPool.Builder()
-                    .setAudioAttributes(attr)
-                    .setMaxStreams(10)
-                    .build();
-        }
-        else
-        {
-            sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        }
-        flipSound = sp.load(this, R.raw.select, 1);
-        playSound = sp.load(this, R.raw.gong, 1);
+        initSound();
 
         // retrieve players info
         players = new HashMap();
@@ -218,6 +202,27 @@ public class GameActivity extends AppCompatActivity {
 
         parentGameLayout.addView(firstPlayer);
 
+    }
+
+    private void initSound()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            AudioAttributes attr = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            sp = new SoundPool.Builder()
+                    .setAudioAttributes(attr)
+                    .setMaxStreams(10)
+                    .build();
+        }
+        else
+        {
+            sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        }
+        flipSound = sp.load(this, R.raw.select, 1);
+        playSound = sp.load(this, R.raw.gong, 1);
     }
 
     @Override
