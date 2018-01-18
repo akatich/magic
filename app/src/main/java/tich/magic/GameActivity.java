@@ -2,6 +2,7 @@ package tich.magic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 
@@ -49,6 +50,10 @@ public class GameActivity extends AppCompatActivity {
     private ViewFlipper firstPlayer;
     public int flipSound;
     private int playSound;
+    private int screenWidth;
+    private int screenHeight;
+    private int layoutWidth;
+    private int layoutHeight;
 
 
     @Override
@@ -76,10 +81,10 @@ public class GameActivity extends AppCompatActivity {
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(displaymetrics);
-        int screenWidth = displaymetrics.widthPixels;
-        int screenHeight = displaymetrics.heightPixels;
-        int layoutWidth = (screenWidth / selectedPlayerNames.length);
-        int layoutHeight = screenHeight - actionBarHeight;
+        screenWidth = displaymetrics.widthPixels;
+        screenHeight = displaymetrics.heightPixels;
+        layoutWidth = (screenWidth / selectedPlayerNames.length);
+        layoutHeight = screenHeight - actionBarHeight;
 
         firstPlayer = new ViewFlipper(this);
         firstPlayer.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -157,51 +162,64 @@ public class GameActivity extends AppCompatActivity {
 
             players.put(name.toLowerCase(), p);
 
-            // add player data to firstPlayer view
-            RelativeLayout playerNameAndAvatar = new RelativeLayout(this);
-            Random rand = new Random();
-            int r = rand.nextInt(255);
-            int g = rand.nextInt(255);
-            int b = rand.nextInt(255);
-            GradientDrawable shape =  new GradientDrawable();
-            shape.setCornerRadius( 35 );
-            shape.setColors(new int[]{
-                    Color.WHITE,
-                    Color.rgb(r,g,b)
-            });
-            shape.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-            shape.setGradientRadius(screenWidth / 4);
-            shape.setShape(GradientDrawable.RECTANGLE);
-            shape.setStroke(4, Color.BLACK);
-            playerNameAndAvatar.setBackground(shape);
-
-            ImageView playerAvatar = new ImageView(this);
-            playerAvatar.setId(View.generateViewId());
-            playerAvatar.setLayoutParams(new RelativeLayout.LayoutParams(
-                    (int) (layoutWidth * 0.6),
-                    (int) (layoutWidth * 0.6)));
-            playerAvatar.setImageResource(getResources().getIdentifier("avatar_" + name.toLowerCase(), "drawable", getApplicationContext().getPackageName()) );
-            ((RelativeLayout.LayoutParams) playerAvatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-            playerNameAndAvatar.addView(playerAvatar);
-
-            TextView playerName = new TextView(this);
-            playerName.setId(View.generateViewId());
-            playerName.setText(name);
-            playerName.setLayoutParams(new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT));
-            playerName.setGravity(Gravity.CENTER_HORIZONTAL);
-            playerName.setTypeface(ResourcesCompat.getFont(this, R.font.berkshire_swash));
-            playerName.setTextSize(50);
-            playerName.setTextColor(Color.DKGRAY);
-            ((RelativeLayout.LayoutParams) playerName.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            playerNameAndAvatar.addView(playerName);
-
-            firstPlayer.addView(playerNameAndAvatar);
         }
 
         parentGameLayout.addView(firstPlayer);
 
+    }
+
+    private void buildViewFlipperToChooseFirstPlayer()
+    {
+        firstPlayer.removeAllViews();
+
+        Iterator iter = players.values().iterator();
+        while (iter.hasNext())
+        {
+            Player p = (Player) iter.next();
+            if (!p.isDead()) {
+                // add player data to firstPlayer view
+                RelativeLayout playerNameAndAvatar = new RelativeLayout(this);
+                Random rand = new Random();
+                int r = rand.nextInt(255);
+                int g = rand.nextInt(255);
+                int b = rand.nextInt(255);
+                GradientDrawable shape = new GradientDrawable();
+                shape.setCornerRadius(35);
+                shape.setColors(new int[]{
+                        Color.WHITE,
+                        Color.rgb(r, g, b)
+                });
+                shape.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+                shape.setGradientRadius(screenWidth / 4);
+                shape.setShape(GradientDrawable.RECTANGLE);
+                shape.setStroke(4, Color.BLACK);
+                playerNameAndAvatar.setBackground(shape);
+
+                ImageView playerAvatar = new ImageView(this);
+                playerAvatar.setId(View.generateViewId());
+                playerAvatar.setLayoutParams(new RelativeLayout.LayoutParams(
+                        (int) (layoutWidth * 0.6),
+                        (int) (layoutWidth * 0.6)));
+                playerAvatar.setImageResource(getResources().getIdentifier("avatar_" + p.getName().getText().toString().toLowerCase(), "drawable", getApplicationContext().getPackageName()));
+                ((RelativeLayout.LayoutParams) playerAvatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                playerNameAndAvatar.addView(playerAvatar);
+
+                TextView playerName = new TextView(this);
+                playerName.setId(View.generateViewId());
+                playerName.setText(p.getName().getText().toString());
+                playerName.setLayoutParams(new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT));
+                playerName.setGravity(Gravity.CENTER_HORIZONTAL);
+                playerName.setTypeface(ResourcesCompat.getFont(this, R.font.berkshire_swash));
+                playerName.setTextSize(50);
+                playerName.setTextColor(Color.DKGRAY);
+                ((RelativeLayout.LayoutParams) playerName.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                playerNameAndAvatar.addView(playerName);
+
+                firstPlayer.addView(playerNameAndAvatar);
+            }
+        }
     }
 
     private void initSound()
@@ -333,6 +351,8 @@ public class GameActivity extends AppCompatActivity {
 
     public void chooseFirstPlayer()
     {
+        buildViewFlipperToChooseFirstPlayer();
+
         firstPlayer.setAlpha(1);
         firstPlayer.setFlipInterval(500);
         firstPlayer.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.flip_in));
@@ -397,4 +417,11 @@ public class GameActivity extends AppCompatActivity {
         this.sp = sp;
     }
 
+    public ViewFlipper getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public void setFirstPlayer(ViewFlipper firstPlayer) {
+        this.firstPlayer = firstPlayer;
+    }
 }

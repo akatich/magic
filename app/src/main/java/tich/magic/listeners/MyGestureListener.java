@@ -117,6 +117,8 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getParcheminHaut().getHeight() + player.getParcheminMilieu().getHeight() - 100);
         nameAnimator.setDuration(2000);
         nameAnimator.start();
+
+        player.setDead(false);
     }
 
     public void updateLife(String operand, int addedLife)
@@ -206,7 +208,8 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getParcheminHaut().getY());
         nameAnimator.setDuration(2000);
         nameAnimator.start();
-    }
 
+        player.setDead(true);
+    }
 }
 

@@ -36,7 +36,7 @@ public class Player {
     private ImageView arrow;
     private LifeUpListener lifeUpListener;
     private MyGestureListener scoreGestureListener;
-
+    private boolean isDead = false;
 
 
     public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView parcheminHaut, ImageView parcheminMilieu, ImageView parcheminBas, ImageView stars, ImageView claws)
@@ -321,5 +321,13 @@ public class Player {
 
     public void setArrow(ImageView arrow) {
         this.arrow = arrow;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 }
