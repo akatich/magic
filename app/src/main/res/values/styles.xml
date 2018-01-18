@@ -25,4 +25,9 @@
         <item name="android:color">@android:color/darker_gray</item>
     </style>
 
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_open</item>
+        <item name="android:windowExitAnimation">@anim/dialog_close</item>
+    </style>
+
 </resources>

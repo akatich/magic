@@ -125,6 +125,7 @@ public class OptionsDialog extends DialogFragment {
 
         // Create the AlertDialog object and return it
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.parchemin);
+        dialog.getWindow().setWindowAnimations(R.style.DialogAnimation);
 
         return dialog;
     }
