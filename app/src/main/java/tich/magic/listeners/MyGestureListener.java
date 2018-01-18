@@ -105,13 +105,13 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getPoison().getId());
-            healView.startAnimation(healAnim);
+            damageView.startAnimation(damageAnim);
         }
         else {
             currentPoison -= addedPoison;
             ((RelativeLayout.LayoutParams) damageView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) damageView.getLayoutParams()).addRule(RelativeLayout.ABOVE, player.getPoison().getId());
-            damageView.startAnimation(damageAnim);
+            healView.startAnimation(healAnim);
         }
         player.getPoison().setText(Integer.toString(currentPoison));
 
