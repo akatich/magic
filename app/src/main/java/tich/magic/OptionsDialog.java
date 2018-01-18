@@ -71,7 +71,7 @@ public class OptionsDialog extends DialogFragment {
                 }
                 else
                 {
-                    imgSound.setImageResource(R.drawable.flacon_poison);
+                    imgPoison.setImageResource(R.drawable.flacon_poison);
                 }
             }
         });
