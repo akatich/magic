@@ -202,6 +202,11 @@ public class Player {
         scoreGestureListener.startHealAnimation();
     }
 
+    public void die()
+    {
+        scoreGestureListener.die();
+    }
+
     public int getId() {
         return id;
     }

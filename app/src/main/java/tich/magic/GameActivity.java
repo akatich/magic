@@ -55,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
     private int layoutWidth;
     private int layoutHeight;
     private int startLife = 20;
+    private TextView txtSpeech;
 
 
     @Override
@@ -167,6 +168,14 @@ public class GameActivity extends AppCompatActivity {
 
         parentGameLayout.addView(firstPlayer);
 
+        txtSpeech = new TextView(this);
+        txtSpeech.setId(View.generateViewId());
+        txtSpeech.setText("test");
+        txtSpeech.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        txtSpeech.setBackgroundColor(Color.WHITE);
+        parentGameLayout.addView(txtSpeech);
     }
 
     private void buildViewFlipperToChooseFirstPlayer()
@@ -298,7 +307,7 @@ public class GameActivity extends AppCompatActivity {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    //txtSpeechInput.setText(result.get(0));
+                    txtSpeech.setText(result.get(0));
                     try {
                         processSpeech(result.get(0));
                     }
@@ -309,26 +318,45 @@ public class GameActivity extends AppCompatActivity {
                 }
                 break;
             }
-
         }
     }
 
     private void processSpeech(String speech)
     {
         String[] parts = speech.split(" ");
-        if (parts.length != 3)
+        if (parts.length == 2)
         {
-            return;
+            // "tuer machin"
+            String action = parts[0].toLowerCase();
+            if (action.equals("tuer"))
+            {
+                String name = spellName(parts[1].toLowerCase());
+                ((Player) players.get(name)).die();
+                return;
+            }
         }
-        String name = spellName(parts[0].toLowerCase());
-        String operand = parts[1];
-        String addedLife = parts[2];
+        else if (parts.length == 3)
+        {
+            // "machin - 3." ou "machin + 5."
 
-        // identify value
-        if (addedLife.indexOf(".") > 0)
-            addedLife = addedLife.substring(0, addedLife.indexOf("."));
+            if (parts[0].equals("tu") && parts[1].equals("es"))
+            {
+                // "tu es machin" au lieu de "tuer machin"
+                String name = spellName(parts[2].toLowerCase());
+                ((Player) players.get(name)).die();
+                return;
+            }
 
-        ((Player)players.get(name)).getScoreGestureListener().updateLife(operand, Integer.parseInt(addedLife));
+            String name = spellName(parts[0].toLowerCase());
+            String operand = parts[1];
+            String addedLife = parts[2];
+
+            // identify value
+            if (addedLife.indexOf(".") > 0)
+                addedLife = addedLife.substring(0, addedLife.indexOf("."));
+
+            ((Player) players.get(name)).getScoreGestureListener().updateLife(operand, Integer.parseInt(addedLife));
+        }
     }
 
     private String spellName(String spellName)
@@ -341,7 +369,8 @@ public class GameActivity extends AppCompatActivity {
                 spellName.equals("kitsch") ||
                 (spellName.length()>2 && spellName.substring(0,2).equals("ti")) )
             return "tich";
-        else if (spellName.length()>2 && spellName.substring(0,2).equals("yo"))
+        else if (spellName.equals("huriaux") ||
+                (spellName.length()>2 && spellName.substring(0,2).equals("yo")) )
             return "yoyo";
         else if (spellName.equals("mathis") ||
                 spellName.equals("matisse"))
@@ -387,7 +416,6 @@ public class GameActivity extends AppCompatActivity {
 
         });
         firstPlayer.startFlipping();
-
     }
 
     public void changeOptions()

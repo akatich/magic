@@ -183,7 +183,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
     }
 
-    private void die()
+    public void die()
     {
         player.getParcheminMilieu().startAnimation(rollParcheminMilieuAnim);
 
