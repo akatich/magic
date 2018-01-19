@@ -129,14 +129,13 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getName().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, player.getName().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getName().getId());
-            healView.startAnimation(healAnim);
+            startHealAnimation();
         }
         else {
             currentLife -= addedLife;
             ((RelativeLayout.LayoutParams) damageView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getName().getId());
             ((RelativeLayout.LayoutParams) damageView.getLayoutParams()).addRule(RelativeLayout.ABOVE, player.getName().getId());
-
-            damageView.startAnimation(damageAnim);
+            startDamageAnimation();
         }
         player.getScore().setText(Integer.toString(currentLife));
 
@@ -146,6 +145,16 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
             die();
         }
 
+    }
+
+    public void startHealAnimation()
+    {
+        healView.startAnimation(healAnim);
+    }
+
+    public void startDamageAnimation()
+    {
+        damageView.startAnimation(damageAnim);
     }
 
     public void updatePoison(String operand, int addedPoison)

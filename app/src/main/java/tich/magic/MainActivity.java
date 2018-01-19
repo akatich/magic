@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 minGlowRadius,      // Minimum Glow Radius
                 maxGlowRadius,      // Maximum Glow Radius
                 startGlowRadius,    // Start Glow Radius - Increases to MaxGlowRadius then decreases to MinGlowRadius.
-                Color.CYAN,         // Glow Color (int)
+                Color.YELLOW,         // Glow Color (int)
                 1);                 // Glowing Transition Speed (Range of 1 to 10)  (fast ... slow)
 
         // remove the focus on new player at start

@@ -54,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
     private int screenHeight;
     private int layoutWidth;
     private int layoutHeight;
+    private int startLife = 20;
 
 
     @Override
@@ -413,6 +414,15 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    public void resetLife(int life)
+    {
+        Iterator iter = players.values().iterator();
+        while (iter.hasNext()) {
+            Player p = (Player) iter.next();
+            p.resetLife(life);
+        }
+    }
+
     public void returnMenu(View v)
     {
         Intent returnIntent = new Intent(this, MainActivity.class);
@@ -441,5 +451,13 @@ public class GameActivity extends AppCompatActivity {
 
     public void setFirstPlayer(ViewFlipper firstPlayer) {
         this.firstPlayer = firstPlayer;
+    }
+
+    public int getStartLife() {
+        return startLife;
+    }
+
+    public void setStartLife(int startLife) {
+        this.startLife = startLife;
     }
 }

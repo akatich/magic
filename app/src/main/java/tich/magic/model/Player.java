@@ -17,7 +17,6 @@ import android.widget.TextView;
 import tich.magic.GameActivity;
 import tich.magic.Preferences;
 import tich.magic.R;
-import tich.magic.listeners.LifeUpListener;
 import tich.magic.listeners.MyGestureListener;
 
 public class Player {
@@ -35,7 +34,6 @@ public class Player {
     private ImageView parcheminMilieu;
     private ImageView parcheminBas;
     private ImageView arrow;
-    private LifeUpListener lifeUpListener;
     private MyGestureListener scoreGestureListener;
     private boolean isDead = false;
 
@@ -49,7 +47,6 @@ public class Player {
         this.parcheminBas = parcheminBas;
 
         name = new TextView(context);
-        //name.setBackgroundColor(Color.GREEN);
         name.setId(View.generateViewId());
         name.setText(playerName);
         name.setLayoutParams(new RelativeLayout.LayoutParams(
@@ -153,38 +150,7 @@ public class Player {
         });
 
 
-        /*lifeUp = new Button(context);
-        lifeUp.setId(View.generateViewId());
-        lifeUp.setTag("+");
-        lifeUp.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        lifeUp.setBackground(ContextCompat.getDrawable(context, R.drawable.arrow_up));
-        ((RelativeLayout.LayoutParams) lifeUp.getLayoutParams()).addRule(RelativeLayout.ABOVE, score.getId());
-        ((RelativeLayout.LayoutParams) lifeUp.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, score.getId());
-        ((RelativeLayout.LayoutParams) lifeUp.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, score.getId());
-        lifeUpListener = new LifeUpListener(gameActivity, this, context, sp);
-        lifeUp.setOnClickListener(lifeUpListener);
-
-        lifeDown = new Button(context);
-        lifeDown.setId(View.generateViewId());
-        lifeDown.setTag("-");
-        lifeDown.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        lifeDown.setBackground(ContextCompat.getDrawable(context, R.drawable.arrow_down));
-        ((RelativeLayout.LayoutParams) lifeDown.getLayoutParams()).addRule(RelativeLayout.BELOW, score.getId());
-        ((RelativeLayout.LayoutParams) lifeDown.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, score.getId());
-        ((RelativeLayout.LayoutParams) lifeDown.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, score.getId());
-        lifeDown.setOnClickListener(lifeUpListener);
-
-        RelativeLayout layout = gameActivity.findViewById(R.id.game_layout);
-        layout.addView(name);
-        layout.addView(avatar);
-        layout.addView(score);
-        layout.addView(lifeUp);
-        layout.addView(lifeDown);
-
+        /*
         name.setTag(playerName);
         if (gameActivity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE) {
             name.setOnLongClickListener(new View.OnLongClickListener() {
@@ -230,6 +196,12 @@ public class Player {
         poisonImage.setVisibility(View.INVISIBLE);
     }
 
+    public void resetLife(int life)
+    {
+        score.setText(Integer.toString(life));
+        scoreGestureListener.startHealAnimation();
+    }
+
     public int getId() {
         return id;
     }
@@ -268,11 +240,6 @@ public class Player {
 
     public void setLifeDown(Button lifeDown) {
         this.lifeDown = lifeDown;
-    }
-
-    public void updateLife(String operand, int addedLife)
-    {
-        lifeUpListener.updateLife(operand, addedLife);
     }
 
     public ImageView getAvatar() {

@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/button"
+                android:background="@drawable/button_inactive"
                 android:onClick="createPlayer"
                 android:text="OK" />
         </LinearLayout>
@@ -109,7 +109,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/button"
+            android:background="@drawable/button_inactive"
             android:onClick="play"
             android:text="Jouer" />
 
