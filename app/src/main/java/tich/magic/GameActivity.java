@@ -175,7 +175,7 @@ public class GameActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT));
         txtSpeech.setBackgroundColor(Color.WHITE);
-        parentGameLayout.addView(txtSpeech);
+        //parentGameLayout.addView(txtSpeech); // <-- for debug only
     }
 
     private void buildViewFlipperToChooseFirstPlayer()
