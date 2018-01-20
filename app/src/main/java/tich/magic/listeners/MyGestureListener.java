@@ -2,6 +2,7 @@ package tich.magic.listeners;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.SoundPool;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import tich.magic.GameActivity;
+import tich.magic.Preferences;
 import tich.magic.R;
 import tich.magic.model.Player;
 
@@ -91,6 +93,8 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         avatarAnimator.setDuration(2000);
         avatarAnimator.start();
 
+        final boolean hasPoison = Preferences.getPreferences().hasPoison();
+
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat ( player.getParcheminBas() , "y" , player.getParcheminHaut().getHeight() + player.getParcheminMilieu().getHeight());
         objectAnimator.setDuration(2000);
         objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -100,7 +104,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
                 float animatedValue = (float)updatedAnimation.getAnimatedValue();
 
                 int poisonTop = ((RelativeLayout.LayoutParams)player.getPoison().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)player.getPoison().getLayoutParams()).height/2;
-                if (animatedValue >= poisonTop) {
+                if (hasPoison && animatedValue >= poisonTop) {
                     player.getPoison().setVisibility(View.VISIBLE);
                     player.getPoisonImage().setVisibility(View.VISIBLE);
                 }
@@ -165,7 +169,12 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, player.getPoison().getId());
             ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getPoison().getId());
-            damageView.startAnimation(damageAnim);
+            //damageView.startAnimation(damageAnim);
+            player.getPoisonImage().setBackgroundResource(R.drawable.flacon_poison);
+            player.getPoisonImage().setBackgroundResource(R.drawable.animation_poison);
+            AnimationDrawable frameAnimation = (AnimationDrawable) player.getPoisonImage().getBackground();
+            frameAnimation.start();
+            player.getPoisonImage().setImageResource(0);
         }
         else {
             currentPoison -= addedPoison;

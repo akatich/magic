@@ -69,7 +69,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="100dp"
-                android:src="@drawable/fiole_poison" />
+                android:src="@drawable/flacon_poison" />
         </TableRow>
 
         <TableRow

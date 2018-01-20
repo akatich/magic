@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/anim_poison" android:oneshot="true">
+    <item android:drawable="@drawable/flacon_poison_image2" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image3" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image4" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image5" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image6" android:duration="50" />
+    <item android:drawable="@drawable/flacon_poison_image7" android:duration="50" />
+    <item android:drawable="@drawable/flacon_poison_image6" android:duration="50" />
+    <item android:drawable="@drawable/flacon_poison_image5" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image4" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image3" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image2" android:duration="100" />
+    <item android:drawable="@drawable/flacon_poison_image1" android:duration="100" />
+
+</animation-list>
