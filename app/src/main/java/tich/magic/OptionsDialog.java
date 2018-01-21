@@ -205,4 +205,10 @@ public class OptionsDialog extends DialogFragment {
 
         return dialog;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 }
