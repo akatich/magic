@@ -81,7 +81,7 @@ public class OptionsDialog extends DialogFragment {
                 }
                 else
                 {
-                    imgPoison.setImageResource(R.drawable.flacon_poison);
+                    imgPoison.setImageResource(R.drawable.sans_flacon_poison);
                 }
             }
         });
@@ -91,7 +91,7 @@ public class OptionsDialog extends DialogFragment {
         }
         else {
             togglePoison.setChecked(false);
-            imgPoison.setImageResource(R.drawable.flacon_poison);
+            imgPoison.setImageResource(R.drawable.sans_flacon_poison);
         }
 
         final Button buttonLife5 = optView.findViewById(R.id.btn_life_5);
