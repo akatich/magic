@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="35dp"
         android:gravity="center_horizontal"
         android:text="@string/options"
         android:textSize="20sp" />
@@ -37,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/img_sound"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="100dp"
                 android:src="@drawable/avec_son" />
@@ -63,8 +63,8 @@
 
             <ImageView
                 android:id="@+id/img_poison"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="100dp"
                 android:src="@drawable/flacon_poison" />
@@ -93,24 +93,26 @@
                 <Button
                     android:id="@+id/btn_life_5"
                     style="@style/dialogButtonLife"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="10dp"
                     android:text="5" />
 
                 <Button
                     android:id="@+id/btn_life_20"
                     style="@style/dialogButtonLife"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
+                    android:layout_marginRight="10dp"
                     android:text="20" />
 
                 <Button
                     android:id="@+id/btn_life_30"
                     style="@style/dialogButtonLife"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
                     android:text="30" />
             </LinearLayout>

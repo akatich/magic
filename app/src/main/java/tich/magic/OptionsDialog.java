@@ -153,7 +153,7 @@ public class OptionsDialog extends DialogFragment {
                 break;
         }
 
-        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
                 if (toggleSound.isChecked()) {
@@ -196,12 +196,12 @@ public class OptionsDialog extends DialogFragment {
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) btnPositive.getLayoutParams();
         layoutParams.weight = 10;
-        layoutParams.bottomMargin = 25;
+        layoutParams.bottomMargin = 30;
         btnPositive.setLayoutParams(layoutParams);
         btnNegative.setLayoutParams(layoutParams);
 
         // Create the AlertDialog object and return it
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.parchemin);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.parchemin_horizontal);
         dialog.getWindow().setWindowAnimations(R.style.DialogAnimation);
 
         return dialog;
