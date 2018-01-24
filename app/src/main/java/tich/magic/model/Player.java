@@ -101,12 +101,12 @@ public class Player {
         poisonImage = new ImageView(gameActivity);
         poisonImage.setId(View.generateViewId());
         poisonImage.setLayoutParams(new RelativeLayout.LayoutParams(
-                150,
+                new Double(layoutHeight * 0.2).intValue(),
                 new Double(layoutHeight * 0.2).intValue()));
         poisonImage.setForegroundGravity(Gravity.CENTER);
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, poison.getId());
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, poison.getId());
-        poisonImage.setBackgroundResource(R.drawable.flacon_poison);
+        poisonImage.setImageResource(R.drawable.flacon_poison);
 
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ABOVE, name.getId());
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, name.getId());

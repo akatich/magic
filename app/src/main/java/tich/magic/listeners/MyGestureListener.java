@@ -166,15 +166,10 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         int currentPoison = Integer.parseInt(player.getPoison().getText().toString());
         if (operand.equals("+")) {
             currentPoison += addedPoison;
-            ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, player.getPoison().getId());
-            ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_RIGHT, player.getPoison().getId());
-            ((RelativeLayout.LayoutParams) healView.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, player.getPoison().getId());
-            //damageView.startAnimation(damageAnim);
-            player.getPoisonImage().setBackgroundResource(R.drawable.flacon_poison);
-            player.getPoisonImage().setBackgroundResource(R.drawable.animation_poison);
-            AnimationDrawable frameAnimation = (AnimationDrawable) player.getPoisonImage().getBackground();
+            //player.getPoisonImage().setImageResource(R.drawable.flacon_poison);
+            player.getPoisonImage().setImageResource(R.drawable.animation_poison);
+            AnimationDrawable frameAnimation = (AnimationDrawable) player.getPoisonImage().getDrawable();
             frameAnimation.start();
-            player.getPoisonImage().setImageResource(0);
         }
         else {
             currentPoison -= addedPoison;
