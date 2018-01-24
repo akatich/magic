@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 public class OptionsDialog extends DialogFragment {
@@ -44,7 +45,7 @@ public class OptionsDialog extends DialogFragment {
         builder.setView(optView);
         AlertDialog dialog = builder.create();
 
-        final ToggleButton toggleSound = optView.findViewById(R.id.toggle_sound);
+        final Switch toggleSound = optView.findViewById(R.id.toggle_sound);
         final ImageView imgSound = optView.findViewById(R.id.img_sound);
         toggleSound.setOnClickListener(new View.OnClickListener()  {
             @Override
@@ -69,7 +70,7 @@ public class OptionsDialog extends DialogFragment {
             imgSound.setImageResource(R.drawable.sans_son);
         }
 
-        final ToggleButton togglePoison = optView.findViewById(R.id.toggle_poison);
+        final Switch togglePoison = optView.findViewById(R.id.toggle_poison);
         final ImageView imgPoison = optView.findViewById(R.id.img_poison);
         togglePoison.setOnClickListener(new View.OnClickListener()  {
             @Override

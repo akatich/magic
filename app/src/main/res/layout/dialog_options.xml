@@ -30,11 +30,10 @@
                 android:layout_marginLeft="100dp"
                 android:text="@string/sound" />
 
-            <ToggleButton
+            <Switch
                 android:id="@+id/toggle_sound"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ToggleButton" />
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/img_sound"
@@ -57,11 +56,10 @@
                 android:layout_marginLeft="100dp"
                 android:text="@string/poison" />
 
-            <ToggleButton
+            <Switch
                 android:id="@+id/toggle_poison"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ToggleButton" />
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/img_poison"
