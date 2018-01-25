@@ -191,8 +191,10 @@ public class OptionsDialog extends DialogFragment {
         Button btnNegative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         btnPositive.setTextSize(20);
         btnPositive.setTextColor(Color.DKGRAY);
+        btnPositive.setAllCaps(false);
         btnNegative.setTextSize(20);
         btnNegative.setTextColor(Color.DKGRAY);
+        btnNegative.setAllCaps(false);
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) btnPositive.getLayoutParams();
         layoutParams.weight = 10;
