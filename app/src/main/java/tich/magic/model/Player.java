@@ -55,7 +55,7 @@ public class Player {
         ((RelativeLayout.LayoutParams)name.getLayoutParams()).bottomMargin = 100;
         name.setGravity(Gravity.CENTER_HORIZONTAL);
         name.setTypeface(typeface);
-        name.setTextSize(20);
+        name.setTextSize(20 + (18 - nbOfPlayers*3));
         name.setTextColor(Color.DKGRAY);
         ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -86,24 +86,23 @@ public class Player {
         poison = new TextView(context);
         poison.setId(View.generateViewId());
 
-        int leftMargin = 20;
         poison.setLayoutParams(new RelativeLayout.LayoutParams(
-                new Double(layoutWidth * 0.4).intValue(),
+                new Double(layoutWidth * 0.45).intValue(),
                 new Double(layoutHeight * 0.2).intValue()));
-        poison.setGravity(Gravity.CENTER);
+        poison.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
         poison.setText("0");
         ((RelativeLayout.LayoutParams) poison.getLayoutParams()).topMargin = (int) (layoutHeight * 0.4);
-        ((RelativeLayout.LayoutParams) poison.getLayoutParams()).leftMargin = leftMargin;
-        poison.setTextSize(25);
+        poison.setPadding(0, 0, new Double(layoutWidth * 0.05).intValue(), 0);
+        poison.setTextSize(35);
         poison.setTextColor(Color.parseColor("#007F0E"));
         poison.setTypeface(typeface);
 
         poisonImage = new ImageView(gameActivity);
         poisonImage.setId(View.generateViewId());
         poisonImage.setLayoutParams(new RelativeLayout.LayoutParams(
-                new Double(layoutHeight * 0.2).intValue(),
+                RelativeLayout.LayoutParams.MATCH_PARENT,
                 new Double(layoutHeight * 0.2).intValue()));
-        poisonImage.setForegroundGravity(Gravity.CENTER);
+        poisonImage.setScaleType(ImageView.ScaleType.FIT_START);
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, poison.getId());
         ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, poison.getId());
         poisonImage.setImageResource(R.drawable.flacon_poison);
