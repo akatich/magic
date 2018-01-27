@@ -33,6 +33,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public final static String SELECTED_PLAYERS = "tich.magic.selected_players";
+    public final static String GAME_MODE = "tich.magic.game_mode";
+    public int gameMode;
+    public static int BOUCHERIE = 1;
+    public static int PV5 = 2;
+    public static int TROLL = 3;
+
     private Typeface typeface = null;
     private String allPlayers = "";
     private ArrayList<String> allPlayersList = new ArrayList<String>();
@@ -193,7 +199,22 @@ public class MainActivity extends AppCompatActivity {
         playersLayout.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
-    public void play(View v)
+    public void play5pv(View v)
+    {
+        play(PV5);
+    }
+
+    public void playBoucherie(View v)
+    {
+        play(BOUCHERIE);
+    }
+
+    public void playTroll(View v)
+    {
+        play(TROLL);
+    }
+
+    public void play(int gameMode)
     {
         ArrayList<String> selectedPlayers = new ArrayList<String>();
         for (int i=0; i<playersLayout.getChildCount(); i++)
@@ -215,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
             String[] selectedPlayersArray = new String[selectedPlayers.size()];
             selectedPlayersArray = selectedPlayers.toArray(selectedPlayersArray);
             gameIntent.putExtra(SELECTED_PLAYERS, selectedPlayersArray);
+            gameIntent.putExtra(GAME_MODE, Integer.toString(gameMode));
             startActivity(gameIntent);
         }
     }
