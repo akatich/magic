@@ -157,6 +157,8 @@ public class GameActivity extends AppCompatActivity {
             claws.setVisibility(View.INVISIBLE);
 
             Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
+            if (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.PV5)
+                p.getScore().setText("5");
 
             p.attachToLayout(relativeLayout);
             relativeLayout.addView(claws);
