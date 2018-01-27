@@ -55,7 +55,7 @@ public class Player {
         ((RelativeLayout.LayoutParams)name.getLayoutParams()).bottomMargin = 100;
         name.setGravity(Gravity.CENTER_HORIZONTAL);
         name.setTypeface(typeface);
-        name.setTextSize(20 + (18 - nbOfPlayers*3));
+        name.setTextSize(38 - nbOfPlayers*3);
         name.setTextColor(Color.DKGRAY);
         ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -85,9 +85,8 @@ public class Player {
 
         poison = new TextView(context);
         poison.setId(View.generateViewId());
-
         poison.setLayoutParams(new RelativeLayout.LayoutParams(
-                new Double(layoutWidth * 0.45).intValue(),
+                new Double(layoutWidth * (0.5 - (float)nbOfPlayers/50)).intValue(),
                 new Double(layoutHeight * 0.2).intValue()));
         poison.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
         poison.setText("0");
