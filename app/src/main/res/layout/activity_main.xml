@@ -96,26 +96,41 @@
         android:focusedByDefault="true">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/img_deco_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             app:srcCompat="@drawable/garruk" />
 
-        <Button
-            android:id="@+id/button_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/button_troll"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="false"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/button_inactive"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/img_deco_left"
+            android:background="@drawable/button_troll"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/troll" />
+
+        <ImageButton
+            android:id="@+id/button_boucherie"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/button_troll"
+            android:background="@drawable/button_boucherie"
             android:onClick="play"
-            android:text="Jouer" />
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/boucherie" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/img_deco_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
