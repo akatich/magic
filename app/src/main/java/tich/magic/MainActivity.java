@@ -108,19 +108,6 @@ public class MainActivity extends AppCompatActivity {
         }
         updateListPlayers();
 
-        float   startGlowRadius = 6f,         // Glowing starts with this Intensity
-                minGlowRadius   = 0f,         // Minimum Glowing Intensity
-                maxGlowRadius   = 30f;        // Maximum Glowing Intensity
-        GlowingText glowText = new GlowingText(
-                this,           // Pass activity Object
-                getBaseContext(),   // Context
-                findViewById(R.id.button_play),           // TextView
-                minGlowRadius,      // Minimum Glow Radius
-                maxGlowRadius,      // Maximum Glow Radius
-                startGlowRadius,    // Start Glow Radius - Increases to MaxGlowRadius then decreases to MinGlowRadius.
-                Color.YELLOW,         // Glow Color (int)
-                1);                 // Glowing Transition Speed (Range of 1 to 10)  (fast ... slow)
-
         // remove the focus on new player at start
         findViewById(R.id.rel_play_layout).requestFocus();
     }
