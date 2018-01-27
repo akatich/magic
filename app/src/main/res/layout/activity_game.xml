@@ -15,7 +15,7 @@
             android:id="@+id/game_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/tile_background"
+            android:background="@drawable/fond_carte"
             android:orientation="horizontal"
             android:tileMode="repeat"></LinearLayout>
     </RelativeLayout>
