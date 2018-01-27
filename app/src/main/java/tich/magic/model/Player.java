@@ -21,90 +21,58 @@ import tich.magic.listeners.MyGestureListener;
 
 public class Player {
 
-    private GameActivity gameActivity;
-    private int id;
-    private TextView name;
-    private TextView score;
-    private TextView poison;
-    private ImageView poisonImage;
-    private Button lifeUp;
-    private Button lifeDown;
-    private ImageView avatar;
-    private ImageView parcheminHaut;
-    private ImageView parcheminMilieu;
-    private ImageView parcheminBas;
-    private ImageView arrow;
-    private MyGestureListener scoreGestureListener;
-    private boolean isDead = false;
+    protected GameActivity gameActivity;
+    protected Typeface typeface;
+    protected TextView name;
+    protected TextView score;
+    protected TextView poison;
+    protected ImageView poisonImage;
+    protected ImageView avatar;
+    protected ImageView parcheminHaut;
+    protected ImageView parcheminMilieu;
+    protected ImageView parcheminBas;
+    protected ImageView arrow;
+    protected MyGestureListener scoreGestureListener;
+    protected boolean isDead = false;
 
 
     public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView parcheminHaut, ImageView parcheminMilieu, ImageView parcheminBas, ImageView stars, ImageView claws)
     {
         this.gameActivity = gameActivity;
-        Typeface typeface = ResourcesCompat.getFont(context, R.font.berkshire_swash);
+        this.typeface = ResourcesCompat.getFont(context, R.font.berkshire_swash);
         this.parcheminHaut = parcheminHaut;
         this.parcheminMilieu = parcheminMilieu;
         this.parcheminBas = parcheminBas;
 
-        name = new TextView(context);
-        name.setId(View.generateViewId());
-        name.setText(playerName);
-        name.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        ((RelativeLayout.LayoutParams)name.getLayoutParams()).bottomMargin = 100;
-        name.setGravity(Gravity.CENTER_HORIZONTAL);
-        name.setTypeface(typeface);
-        name.setTextSize(38 - nbOfPlayers*3);
-        name.setTextColor(Color.DKGRAY);
-        ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
+        createPlayerElements(playerName, nbOfPlayers, layoutWidth, layoutHeight, sp, stars, claws);
 
-        avatar = new ImageView(gameActivity);
-        avatar.setId(View.generateViewId());
-        avatar.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        avatar.setImageResource(gameActivity.getResources().getIdentifier("avatar_" + playerName.toLowerCase(), "drawable", gameActivity.getApplicationContext().getPackageName()) );
-        avatar.setAlpha(60);
-        ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).width = (int) (layoutWidth * 0.7);
-        ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).height = ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).width;
+        /*
+        name.setTag(playerName);
+        if (gameActivity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE) {
+            name.setOnLongClickListener(new View.OnLongClickListener() {
 
-        score = new TextView(context);
-        score.setId(View.generateViewId());
-        score.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                new Double(layoutHeight * 0.3).intValue()));
-        score.setGravity(Gravity.CENTER);
-        score.setText("20");
-        ((RelativeLayout.LayoutParams) score.getLayoutParams()).topMargin = (int) (layoutHeight * 0.1);
-        ((RelativeLayout.LayoutParams) score.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        score.setTextSize(50);
-        score.setTypeface(typeface);
+                public boolean onLongClick(View v) {
+                    ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
+                    ClipData dragData = new ClipData((CharSequence)v.getTag(), new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
+                    View.DragShadowBuilder myShadow = new MyDragShadowBuilder(name);
+                    v.startDrag(dragData,  // the data to be dragged
+                            myShadow,  // the drag shadow builder
+                            null,      // no need to use local data
+                            0          // flags (not currently used, set to 0)
+                    );
+                    return true;
+                }
+            });
+            name.setOnDragListener(new MyDragEventListener(gameActivity));
+        }*/
+    }
 
-        poison = new TextView(context);
-        poison.setId(View.generateViewId());
-        poison.setLayoutParams(new RelativeLayout.LayoutParams(
-                new Double(layoutWidth * (0.5 - (float)nbOfPlayers/50)).intValue(),
-                new Double(layoutHeight * 0.2).intValue()));
-        poison.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
-        poison.setText("0");
-        ((RelativeLayout.LayoutParams) poison.getLayoutParams()).topMargin = (int) (layoutHeight * 0.4);
-        poison.setPadding(0, 0, new Double(layoutWidth * 0.05).intValue(), 0);
-        poison.setTextSize(35);
-        poison.setTextColor(Color.parseColor("#007F0E"));
-        poison.setTypeface(typeface);
-
-        poisonImage = new ImageView(gameActivity);
-        poisonImage.setId(View.generateViewId());
-        poisonImage.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                new Double(layoutHeight * 0.2).intValue()));
-        poisonImage.setScaleType(ImageView.ScaleType.FIT_START);
-        ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, poison.getId());
-        ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, poison.getId());
-        poisonImage.setImageResource(R.drawable.flacon_poison);
+    protected void createPlayerElements(String playerName, int nbOfPlayers, int layoutWidth, int layoutHeight, SoundPool sp, ImageView stars, ImageView claws)
+    {
+        createName(playerName, nbOfPlayers);
+        createAvatar(playerName, layoutWidth);
+        createScore(layoutHeight);
+        createPoison(layoutWidth, layoutHeight, nbOfPlayers);
 
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ABOVE, name.getId());
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, name.getId());
@@ -146,27 +114,79 @@ public class Player {
                 return true;
             }
         });
+    }
 
+    protected void createName(String playerName, int nbOfPlayers)
+    {
+        name = new TextView(gameActivity);
+        name.setId(View.generateViewId());
+        name.setText(playerName);
+        name.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        ((RelativeLayout.LayoutParams)name.getLayoutParams()).bottomMargin = 100;
+        name.setGravity(Gravity.CENTER_HORIZONTAL);
+        name.setTypeface(typeface);
+        name.setTextSize(38 - nbOfPlayers*3);
+        name.setTextColor(Color.DKGRAY);
+        ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL);
+    }
 
-        /*
-        name.setTag(playerName);
-        if (gameActivity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE) {
-            name.setOnLongClickListener(new View.OnLongClickListener() {
+    protected void createAvatar(String playerName, int layoutWidth)
+    {
+        avatar = new ImageView(gameActivity);
+        avatar.setId(View.generateViewId());
+        avatar.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        avatar.setImageResource(gameActivity.getResources().getIdentifier("avatar_" + playerName.toLowerCase(), "drawable", gameActivity.getApplicationContext().getPackageName()) );
+        avatar.setAlpha(60);
+        ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).width = (int) (layoutWidth * 0.7);
+        ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).height = ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).width;
+    }
 
-                public boolean onLongClick(View v) {
-                    ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
-                    ClipData dragData = new ClipData((CharSequence)v.getTag(), new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}, item);
-                    View.DragShadowBuilder myShadow = new MyDragShadowBuilder(name);
-                    v.startDrag(dragData,  // the data to be dragged
-                            myShadow,  // the drag shadow builder
-                            null,      // no need to use local data
-                            0          // flags (not currently used, set to 0)
-                    );
-                    return true;
-                }
-            });
-            name.setOnDragListener(new MyDragEventListener(gameActivity));
-        }*/
+    protected void createScore(int layoutHeight)
+    {
+        score = new TextView(gameActivity);
+        score.setId(View.generateViewId());
+        score.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                new Double(layoutHeight * 0.3).intValue()));
+        score.setGravity(Gravity.CENTER);
+        score.setText("20");
+        ((RelativeLayout.LayoutParams) score.getLayoutParams()).topMargin = (int) (layoutHeight * 0.1);
+        ((RelativeLayout.LayoutParams) score.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        score.setTextSize(50);
+        score.setTypeface(typeface);
+
+    }
+
+    protected void createPoison(int layoutWidth, int layoutHeight, int nbOfPlayers)
+    {
+        poison = new TextView(gameActivity);
+        poison.setId(View.generateViewId());
+        poison.setLayoutParams(new RelativeLayout.LayoutParams(
+                new Double(layoutWidth * (0.5 - (float)nbOfPlayers/50)).intValue(),
+                new Double(layoutHeight * 0.2).intValue()));
+        poison.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+        poison.setText("0");
+        ((RelativeLayout.LayoutParams) poison.getLayoutParams()).topMargin = (int) (layoutHeight * 0.4);
+        poison.setPadding(0, 0, new Double(layoutWidth * 0.05).intValue(), 0);
+        poison.setTextSize(35);
+        poison.setTextColor(Color.parseColor("#007F0E"));
+        poison.setTypeface(typeface);
+
+        poisonImage = new ImageView(gameActivity);
+        poisonImage.setId(View.generateViewId());
+        poisonImage.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                new Double(layoutHeight * 0.2).intValue()));
+        poisonImage.setScaleType(ImageView.ScaleType.FIT_START);
+        ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, poison.getId());
+        ((RelativeLayout.LayoutParams) poisonImage.getLayoutParams()).addRule(RelativeLayout.ALIGN_BOTTOM, poison.getId());
+        poisonImage.setImageResource(R.drawable.flacon_poison);
     }
 
     public void attachToLayout(RelativeLayout relativeLayout)
@@ -205,14 +225,6 @@ public class Player {
         scoreGestureListener.die();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public TextView getName() {
         return name;
     }
@@ -227,22 +239,6 @@ public class Player {
 
     public void setScore(TextView score) {
         this.score = score;
-    }
-
-    public Button getLifeUp() {
-        return lifeUp;
-    }
-
-    public void setLifeUp(Button lifeUp) {
-        this.lifeUp = lifeUp;
-    }
-
-    public Button getLifeDown() {
-        return lifeDown;
-    }
-
-    public void setLifeDown(Button lifeDown) {
-        this.lifeDown = lifeDown;
     }
 
     public ImageView getAvatar() {

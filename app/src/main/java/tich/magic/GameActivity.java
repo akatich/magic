@@ -1,6 +1,8 @@
 package tich.magic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -41,6 +43,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ViewFlipper;
 
 import tich.magic.model.Player;
+import tich.magic.model.Troll;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -82,6 +85,9 @@ public class GameActivity extends AppCompatActivity {
         }
         int tailleParcheminHaut = 60;
 
+        if (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.TROLL)
+            selectedPlayerNames = chooseTrollTeam(selectedPlayerNames);
+
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(displaymetrics);
@@ -99,6 +105,7 @@ public class GameActivity extends AppCompatActivity {
 
         RelativeLayout parentGameLayout = findViewById(R.id.parent_game_layout);
         LinearLayout gameLayout = findViewById(R.id.game_layout);
+
         for (int i=0; i<selectedPlayerNames.length; i++)
         {
             String name = selectedPlayerNames[i];
@@ -157,8 +164,22 @@ public class GameActivity extends AppCompatActivity {
             claws.setVisibility(View.INVISIBLE);
 
             Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
-            if (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.PV5)
-                p.getScore().setText("5");
+            switch (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)))
+            {
+                case MainActivity.PV5:
+                    p.getScore().setText("5");
+                    break;
+                case MainActivity.TROLL:
+                    try {
+                        p = new Troll(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    p.getScore().setText("30");
+                    break;
+            }
 
             p.attachToLayout(relativeLayout);
             relativeLayout.addView(claws);
@@ -180,6 +201,23 @@ public class GameActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams.WRAP_CONTENT));
         txtSpeech.setBackgroundColor(Color.WHITE);
         //parentGameLayout.addView(txtSpeech); // <-- for debug only
+    }
+
+    private String[] chooseTrollTeam(String[] playerNamesArray)
+    {
+        Collections.shuffle(Arrays.asList(playerNamesArray));
+        String[] trollPlayerNamesArray = new String[playerNamesArray.length/2];
+        int trollIndex = 0;
+        for (int i=0; i<playerNamesArray.length; i++)
+        {
+            if (i%2 > 0) {
+                trollPlayerNamesArray[trollIndex] += ";" + playerNamesArray[i];
+                trollIndex++;
+            }
+            else
+                trollPlayerNamesArray[trollIndex] = playerNamesArray[i];
+        }
+        return trollPlayerNamesArray;
     }
 
     private void buildViewFlipperToChooseFirstPlayer()

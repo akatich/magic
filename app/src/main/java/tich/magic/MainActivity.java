@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     public final static String SELECTED_PLAYERS = "tich.magic.selected_players";
     public final static String GAME_MODE = "tich.magic.game_mode";
     public int gameMode;
-    public static int BOUCHERIE = 1;
-    public static int PV5 = 2;
-    public static int TROLL = 3;
+    public final static int BOUCHERIE = 1;
+    public final static int PV5 = 2;
+    public final static int TROLL = 3;
 
     private Typeface typeface = null;
     private String allPlayers = "";
@@ -211,10 +211,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void playTroll(View v)
     {
-        play(TROLL);
+        if (getSelectedPlayers().size()==4 || getSelectedPlayers().size()==6)
+            play(TROLL);
     }
 
-    public void play(int gameMode)
+    private ArrayList<String> getSelectedPlayers()
     {
         ArrayList<String> selectedPlayers = new ArrayList<String>();
         for (int i=0; i<playersLayout.getChildCount(); i++)
@@ -226,6 +227,13 @@ public class MainActivity extends AppCompatActivity {
                 selectedPlayers.add(tv.getText().toString());
             }
         }
+
+        return selectedPlayers;
+    }
+
+    public void play(int gameMode)
+    {
+        ArrayList<String> selectedPlayers = getSelectedPlayers();
 
         if (selectedPlayers.size() >= 2)
         {
