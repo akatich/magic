@@ -13,7 +13,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_options"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/clef"
         android:title="@string/options"
         app:showAsAction="ifRoom" />
 
