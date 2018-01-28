@@ -11,7 +11,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import tich.magic.GameActivity;
 import tich.magic.Preferences;
@@ -52,7 +51,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         damageAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.damage);
         damageAnim.setAnimationListener(new DamageAnimationListener(player.getName(), damageView, sp, gameActivity));
 
-        rollParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.roll_parchemin_milieu);
+        rollParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.close_parchemin_milieu);
         rollParcheminMilieuAnim.setAnimationListener(new RipAnimationListener(player.getParcheminMilieu(), sp, gameActivity));
 
         openParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.open_parchemin_milieu);
