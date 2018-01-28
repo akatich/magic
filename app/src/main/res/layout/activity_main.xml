@@ -112,22 +112,22 @@
             android:layout_marginBottom="20dp"
             android:layout_toRightOf="@+id/img_deco_left"
             android:background="@drawable/button_troll"
+            android:elevation="0dp"
             android:onClick="playTroll"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/troll" />
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/button_boucherie"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
+            android:layout_alignTop="@+id/button_5pv"
+            android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
+            android:layout_toEndOf="@+id/button_troll"
             android:layout_toRightOf="@+id/button_troll"
             android:background="@drawable/button_boucherie"
             android:onClick="playBoucherie"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/boucherie" />
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/button_5pv"
@@ -139,8 +139,7 @@
             android:layout_toRightOf="@+id/button_boucherie"
             android:background="@drawable/button_5pv"
             android:onClick="play5pv"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/cinq_pv" />
+            android:scaleType="fitCenter" />
 
         <ImageView
             android:id="@+id/img_deco_right"

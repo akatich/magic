@@ -2,23 +2,31 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="false">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="oval">
-            <solid android:color="#A4502A"/>
-            <stroke
-                android:width="2dp"
-                android:color="#ffffff"/>
-        </shape>
+        <layer-list>
+            <item android:top="1dp"
+                android:left="1dp">
+                <shape android:shape="oval">
+                    <solid android:color="#000000"/>
+                </shape>
+            </item>
+            <item android:drawable="@drawable/cinq_pv"
+                android:bottom="1dp"
+                android:right="1dp"/>
+        </layer-list>
     </item>
 
     <item android:state_pressed="true">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="oval">
-            <solid android:color="#A4502A"/>
-            <stroke
-                android:width="2dp"
-                android:color="#ffffff"/>
-        </shape>
+        <layer-list>
+            <item android:top="1dp"
+                android:left="1dp">
+                <shape android:shape="oval">
+                    <solid android:color="#000000"/>
+                </shape>
+            </item>
+            <item android:drawable="@drawable/cinq_pv"
+                android:top="1dp"
+                android:left="1dp"/>
+        </layer-list>
     </item>
 
 </selector>
