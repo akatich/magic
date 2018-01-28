@@ -19,6 +19,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,6 +30,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import tich.magic.listeners.HealAnimationListener;
+import tich.magic.listeners.PlayAnimationListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -201,18 +206,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void play5pv(View v)
     {
-        play(PV5);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.start_5pv);
+        anim.setAnimationListener(new PlayAnimationListener(this, sp, PV5));
+        ImageButton btn = findViewById(R.id.button_5pv);
+        btn.startAnimation(anim);
     }
 
     public void playBoucherie(View v)
     {
-        play(BOUCHERIE);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.start_boucherie);
+        anim.setAnimationListener(new PlayAnimationListener(this, sp, BOUCHERIE));
+        ImageButton btn = findViewById(R.id.button_boucherie);
+        btn.startAnimation(anim);
     }
 
     public void playTroll(View v)
     {
         if (getSelectedPlayers().size()==4 || getSelectedPlayers().size()==6)
-            play(TROLL);
+        {
+            Animation anim = AnimationUtils.loadAnimation(this, R.anim.start_troll);
+            anim.setAnimationListener(new PlayAnimationListener(this, sp, TROLL));
+            ImageButton btn = findViewById(R.id.button_troll);
+            btn.startAnimation(anim);
+        }
     }
 
     private ArrayList<String> getSelectedPlayers()

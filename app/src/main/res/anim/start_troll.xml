@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <set android:startOffset="200">
+        <rotate
+            android:duration="800"
+            android:fromDegrees="0"
+            android:toDegrees="359"
+            android:pivotY="50%"
+            android:pivotX="50%"
+            android:fillAfter="true"
+            />
+
+        <translate
+            android:duration="400"
+            android:fromXDelta="0%p"
+            android:toXDelta="40%p"
+            android:fromYDelta="0%p"
+            android:toYDelta="-80%p"
+            android:fillAfter="true"
+            />
+
+        <scale
+            android:duration="400"
+            android:fromXScale="1.0"
+            android:toXScale="0.5"
+            android:fromYScale="1.0"
+            android:toYScale="0.5"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:fillAfter="true"
+            />
+    </set>
+<!--
+    <set android:interpolator="@android:anim/bounce_interpolator" android:startOffset="500">
+        <scale
+            android:duration="200"
+            android:fromXScale="1.0"
+            android:toXScale="0.5"
+            android:fromYScale="1.0"
+            android:toYScale="0.5"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:fillAfter="true"
+            />
+
+        <translate
+            android:duration="200"
+            android:fromXDelta="0%p"
+            android:toXDelta="10%p"
+            android:fromYDelta="0%p"
+            android:toYDelta="-20%p"
+            android:fillAfter="true"
+            />
+    </set>
+-->
+    <set android:startOffset="400">
+        <scale
+            android:duration="400"
+            android:fromXScale="1.0"
+            android:toXScale="15"
+            android:fromYScale="1.0"
+            android:toYScale="15"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:fillAfter="true"
+            />
+
+        <translate
+            android:duration="400"
+            android:fromXDelta="0%p"
+            android:toXDelta="-285%p"
+            android:fromYDelta="0%p"
+            android:toYDelta="560%p"
+            android:fillAfter="true"
+            />
+    </set>
+
+    <alpha
+        android:startOffset="800"
+        android:duration="1000"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0"
+        android:fillAfter="true"
+        />
+
+</set>
