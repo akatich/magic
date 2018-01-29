@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -156,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
             addPlayer(newPlayer);
 
             ((EditText)findViewById(R.id.new_player)).setText("");
+            // hide virtual keyboard
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
