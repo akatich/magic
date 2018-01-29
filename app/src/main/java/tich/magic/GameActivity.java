@@ -85,15 +85,14 @@ public class GameActivity extends AppCompatActivity {
         }
         int tailleParcheminHaut = 60;
 
-        switch (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)))
+        if (isTroll())
         {
-            case MainActivity.TROLL:
-                selectedPlayerNames = chooseTrollTeam(selectedPlayerNames);
-                startLife = 30;
-                break;
-            case MainActivity.PV5:
-                startLife = 5;
-                break;
+            Collections.shuffle(Arrays.asList(selectedPlayerNames));
+            startLife = 30;
+        }
+        else if (is5pv())
+        {
+            startLife = 5;
         }
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -102,6 +101,8 @@ public class GameActivity extends AppCompatActivity {
         screenWidth = displaymetrics.widthPixels;
         screenHeight = displaymetrics.heightPixels;
         layoutWidth = (screenWidth / selectedPlayerNames.length);
+        if (isTroll())
+            layoutWidth = layoutWidth * 2;
         layoutHeight = screenHeight - actionBarHeight;
 
         firstPlayer = new ViewFlipper(this);
@@ -116,8 +117,6 @@ public class GameActivity extends AppCompatActivity {
 
         for (int i=0; i<selectedPlayerNames.length; i++)
         {
-            String name = selectedPlayerNames[i];
-
             RelativeLayout relativeLayout = new RelativeLayout(this);
             relativeLayout.setLayoutParams(new LinearLayout.LayoutParams(
                     0,
@@ -171,28 +170,28 @@ public class GameActivity extends AppCompatActivity {
             claws.setImageResource(R.drawable.griffes);
             claws.setVisibility(View.INVISIBLE);
 
-            Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
-            switch (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)))
+            if (!isTroll())
             {
-                case MainActivity.TROLL:
-                    try {
-                        p = new Troll(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    break;
+                String name = selectedPlayerNames[i];
+                Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
+                players.put(name.toLowerCase(), p);
+                p.attachToLayout(relativeLayout);
+            }
+            else
+            {
+                String name1 = selectedPlayerNames[i++];
+                String name2 = selectedPlayerNames[i];
+                Player p = new Troll(this, name1 + ";" + name2, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
+                players.put(name1.toLowerCase(), p);
+                players.put(name2.toLowerCase(), p);
+                p.attachToLayout(relativeLayout);
             }
 
-            p.attachToLayout(relativeLayout);
+
             relativeLayout.addView(claws);
             relativeLayout.addView(stars);
 
             gameLayout.addView(relativeLayout);
-
-            players.put(name.toLowerCase(), p);
-
         }
 
         parentGameLayout.addView(firstPlayer);
@@ -205,6 +204,16 @@ public class GameActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams.WRAP_CONTENT));
         txtSpeech.setBackgroundColor(Color.WHITE);
         //parentGameLayout.addView(txtSpeech); // <-- for debug only
+    }
+
+    public boolean isTroll()
+    {
+        return Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.TROLL;
+    }
+
+    public boolean is5pv()
+    {
+        return Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.PV5;
     }
 
     private String[] chooseTrollTeam(String[] playerNamesArray)
