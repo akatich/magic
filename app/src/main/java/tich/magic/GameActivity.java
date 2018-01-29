@@ -85,8 +85,16 @@ public class GameActivity extends AppCompatActivity {
         }
         int tailleParcheminHaut = 60;
 
-        if (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.TROLL)
-            selectedPlayerNames = chooseTrollTeam(selectedPlayerNames);
+        switch (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)))
+        {
+            case MainActivity.TROLL:
+                selectedPlayerNames = chooseTrollTeam(selectedPlayerNames);
+                startLife = 30;
+                break;
+            case MainActivity.PV5:
+                startLife = 5;
+                break;
+        }
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -166,9 +174,6 @@ public class GameActivity extends AppCompatActivity {
             Player p = new Player(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
             switch (Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)))
             {
-                case MainActivity.PV5:
-                    p.getScore().setText("5");
-                    break;
                 case MainActivity.TROLL:
                     try {
                         p = new Troll(this, name, getApplicationContext(), sp, selectedPlayerNames.length, layoutWidth, layoutHeight, parcheminHaut, parcheminMilieu, parcheminBas, stars, claws);
@@ -177,7 +182,6 @@ public class GameActivity extends AppCompatActivity {
                     {
                         e.printStackTrace();
                     }
-                    p.getScore().setText("30");
                     break;
             }
 

@@ -155,7 +155,7 @@ public class Player {
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 new Double(layoutHeight * 0.3).intValue()));
         score.setGravity(Gravity.CENTER);
-        score.setText("20");
+        score.setText(Integer.toString(gameActivity.getStartLife()));
         ((RelativeLayout.LayoutParams) score.getLayoutParams()).topMargin = (int) (layoutHeight * 0.1);
         ((RelativeLayout.LayoutParams) score.getLayoutParams()).addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         score.setTextSize(50);
