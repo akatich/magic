@@ -81,17 +81,18 @@ public class MainActivity extends AppCompatActivity {
             if (Preferences.getPreferences().hasSound())
                 sp.play(selectSound, 1, 1, 1, 0, 1f);
 
-            TextView tv = (TextView) v;
-            TableRow tr = (TableRow) tv.getParent();
+            //TextView tv = (TextView) v;
+            TableRow tr =  (TableRow) v.getParent();
 
             if (tr.getChildAt(0).getVisibility() == View.INVISIBLE)
             {
-                tv.setTextColor(Color.parseColor("#007A3B"));
+                //tv.setTextColor(Color.parseColor("#007A3B"));
+                ((TextView)tr.getChildAt(2)).setTextColor(Color.parseColor("#007A3B"));
                 tr.getChildAt(0).setVisibility(View.VISIBLE);
             }
             else
             {
-                tv.setTextColor(Color.DKGRAY);
+                ((TextView)tr.getChildAt(2)).setTextColor(Color.DKGRAY);
                 tr.getChildAt(0).setVisibility(View.INVISIBLE);
             }
         }
@@ -178,11 +179,13 @@ public class MainActivity extends AppCompatActivity {
         img.setImageResource(R.drawable.greentick);
         img.setVisibility(View.INVISIBLE);
         img.setBackground(null);
+        img.setOnClickListener(selectPlayerListener);
         tr.addView(img, params);
 
         ImageView avatar = new ImageView(this);
         avatar.setImageResource(getResources().getIdentifier("avatar_icon_" + player.toLowerCase(), "drawable", getApplicationContext().getPackageName()) );
         avatar.setBackground(null);
+        avatar.setOnClickListener(selectPlayerListener);
         tr.addView(avatar, params);
 
         TextView tv = new TextView(this);
