@@ -216,32 +216,20 @@ public class GameActivity extends AppCompatActivity {
         return Integer.parseInt(getIntent().getStringExtra(MainActivity.GAME_MODE)) == MainActivity.PV5;
     }
 
-    private String[] chooseTrollTeam(String[] playerNamesArray)
-    {
-        Collections.shuffle(Arrays.asList(playerNamesArray));
-        String[] trollPlayerNamesArray = new String[playerNamesArray.length/2];
-        int trollIndex = 0;
-        for (int i=0; i<playerNamesArray.length; i++)
-        {
-            if (i%2 > 0) {
-                trollPlayerNamesArray[trollIndex] += ";" + playerNamesArray[i];
-                trollIndex++;
-            }
-            else
-                trollPlayerNamesArray[trollIndex] = playerNamesArray[i];
-        }
-        return trollPlayerNamesArray;
-    }
-
     private void buildViewFlipperToChooseFirstPlayer()
     {
         firstPlayer.removeAllViews();
 
-        Iterator iter = players.values().iterator();
+        HashMap chosenPlayers = new HashMap();
+        Iterator iter = players.keySet().iterator();
         while (iter.hasNext())
         {
-            Player p = (Player) iter.next();
-            if (!p.isDead()) {
+            String playerName = (String) iter.next();
+            Player p = (Player) players.get(playerName);
+
+            if (!p.isDead() && !chosenPlayers.containsKey(p))
+            {
+                chosenPlayers.put(p, null);
                 // add player data to firstPlayer view
                 RelativeLayout playerNameAndAvatar = new RelativeLayout(this);
                 Random rand = new Random();
@@ -260,27 +248,68 @@ public class GameActivity extends AppCompatActivity {
                 shape.setStroke(4, Color.BLACK);
                 playerNameAndAvatar.setBackground(shape);
 
-                ImageView playerAvatar = new ImageView(this);
-                playerAvatar.setId(View.generateViewId());
-                playerAvatar.setLayoutParams(new RelativeLayout.LayoutParams(
-                        (int) (layoutWidth * 0.6),
-                        (int) (layoutWidth * 0.6)));
-                playerAvatar.setImageResource(getResources().getIdentifier("avatar_" + p.getName().getText().toString().toLowerCase(), "drawable", getApplicationContext().getPackageName()));
-                ((RelativeLayout.LayoutParams) playerAvatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                playerNameAndAvatar.addView(playerAvatar);
+                if (!isTroll()) {
+                    ImageView playerAvatar = new ImageView(this);
+                    playerAvatar.setId(View.generateViewId());
+                    playerAvatar.setLayoutParams(new RelativeLayout.LayoutParams(
+                            (int) (layoutWidth * 0.6),
+                            (int) (layoutWidth * 0.6)));
+                    playerAvatar.setImageResource(getResources().getIdentifier("avatar_" + p.getName().getText().toString().toLowerCase(), "drawable", getApplicationContext().getPackageName()));
+                    ((RelativeLayout.LayoutParams) playerAvatar.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                    playerNameAndAvatar.addView(playerAvatar);
+                }
+                else {
+                    ImageView avatarSeparator = new ImageView(this);
+                    avatarSeparator.setId(View.generateViewId());
+                    avatarSeparator.setLayoutParams(new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT));
+                    ((RelativeLayout.LayoutParams) avatarSeparator.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                    avatarSeparator.setImageResource(this.getResources().getIdentifier("avatar_separator", "drawable", getApplicationContext().getPackageName()));
+                    avatarSeparator.setAlpha(60);
+                    ((RelativeLayout.LayoutParams) avatarSeparator.getLayoutParams()).width = (int) (layoutWidth * 0.1);
+                    ((RelativeLayout.LayoutParams) avatarSeparator.getLayoutParams()).height = (int) (layoutWidth * 0.3);
+                    playerNameAndAvatar.addView(avatarSeparator);
 
-                TextView playerName = new TextView(this);
-                playerName.setId(View.generateViewId());
-                playerName.setText(p.getName().getText().toString());
-                playerName.setLayoutParams(new RelativeLayout.LayoutParams(
+                    ImageView avatar = new ImageView(this);
+                    avatar.setId(View.generateViewId());
+                    avatar.setLayoutParams(new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT));
+                    ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).addRule(RelativeLayout.LEFT_OF, avatarSeparator.getId());
+                    ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).addRule(RelativeLayout.ALIGN_TOP, avatarSeparator.getId());
+                    avatar.setImageResource(getResources().getIdentifier("avatar_" + ((Troll)p).getPlayerNamesArray()[0].toLowerCase(), "drawable", getApplicationContext().getPackageName()));
+                    avatar.setAlpha(60);
+                    ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).width = (int) (layoutWidth * 0.3);
+                    ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).height = ((RelativeLayout.LayoutParams) avatar.getLayoutParams()).width;
+                    playerNameAndAvatar.addView(avatar);
+
+                    ImageView avatar2 = new ImageView(this);
+                    avatar2.setId(View.generateViewId());
+                    avatar2.setLayoutParams(new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT));
+                    ((RelativeLayout.LayoutParams) avatar2.getLayoutParams()).addRule(RelativeLayout.RIGHT_OF, avatarSeparator.getId());
+                    ((RelativeLayout.LayoutParams) avatar2.getLayoutParams()).addRule(RelativeLayout.ALIGN_TOP, avatarSeparator.getId());
+                    avatar2.setImageResource(getResources().getIdentifier("avatar_" + ((Troll)p).getPlayerNamesArray()[1].toLowerCase(), "drawable", getApplicationContext().getPackageName()));
+                    avatar2.setAlpha(60);
+                    ((RelativeLayout.LayoutParams) avatar2.getLayoutParams()).width = (int) (layoutWidth * 0.3);
+                    ((RelativeLayout.LayoutParams) avatar2.getLayoutParams()).height = ((RelativeLayout.LayoutParams) avatar2.getLayoutParams()).width;
+                    playerNameAndAvatar.addView(avatar2);
+                }
+
+                TextView name = new TextView(this);
+                name.setId(View.generateViewId());
+                name.setText(p.getName().getText().toString());
+                name.setLayoutParams(new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT));
-                playerName.setGravity(Gravity.CENTER_HORIZONTAL);
-                playerName.setTypeface(ResourcesCompat.getFont(this, R.font.berkshire_swash));
-                playerName.setTextSize(50);
-                playerName.setTextColor(Color.DKGRAY);
-                ((RelativeLayout.LayoutParams) playerName.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                playerNameAndAvatar.addView(playerName);
+                name.setGravity(Gravity.CENTER_HORIZONTAL);
+                name.setTypeface(ResourcesCompat.getFont(this, R.font.berkshire_swash));
+                name.setTextSize(50);
+                name.setTextColor(Color.DKGRAY);
+                ((RelativeLayout.LayoutParams) name.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                playerNameAndAvatar.addView(name);
 
                 firstPlayer.addView(playerNameAndAvatar);
             }

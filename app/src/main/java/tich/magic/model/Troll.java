@@ -80,4 +80,28 @@ public class Troll extends Player {
         relativeLayout.addView(avatarSeparator);
         relativeLayout.addView(avatar2);
     }
+
+    public ImageView getAvatarSeparator() {
+        return avatarSeparator;
+    }
+
+    public void setAvatarSeparator(ImageView avatarSeparator) {
+        this.avatarSeparator = avatarSeparator;
+    }
+
+    public ImageView getAvatar2() {
+        return avatar2;
+    }
+
+    public void setAvatar2(ImageView avatar2) {
+        this.avatar2 = avatar2;
+    }
+
+    public String[] getPlayerNamesArray() {
+        return playerNamesArray;
+    }
+
+    public void setPlayerNamesArray(String[] playerNamesArray) {
+        this.playerNamesArray = playerNamesArray;
+    }
 }
