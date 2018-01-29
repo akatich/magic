@@ -16,6 +16,7 @@ import tich.magic.GameActivity;
 import tich.magic.Preferences;
 import tich.magic.R;
 import tich.magic.model.Player;
+import tich.magic.model.Troll;
 
 public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -179,7 +180,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         player.getPoison().setText(Integer.toString(currentPoison));
 
         // RIP
-        if (currentPoison >= 10)
+        if ((player instanceof Troll && currentPoison >= 15) || (!(player instanceof Troll) && currentPoison >= 10))
         {
             die();
         }
