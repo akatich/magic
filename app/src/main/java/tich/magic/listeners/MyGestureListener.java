@@ -12,6 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 import tich.magic.GameActivity;
 import tich.magic.Preferences;
 import tich.magic.R;
@@ -29,6 +32,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
     private Animation damageAnim;
     private Animation rollParcheminMilieuAnim;
     private Animation openParcheminMilieuAnim;
+    private Animation winnerAnim;
     private ImageView healView;
     private ImageView damageView;
     private int lifeOrPoison;
@@ -57,6 +61,8 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         openParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.open_parchemin_milieu);
         openParcheminMilieuAnim.setAnimationListener(new ResurrectAnimationListener(player.getParcheminMilieu(), sp, gameActivity));
+
+        winnerAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.winner);
     }
 
     @Override
@@ -230,6 +236,36 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         nameAnimator.start();
 
         player.setDead(true);
+
+        // si c'etait l'avant-dernier joueur, il faut proclamer le vainqueur
+        checkWinner();
+    }
+
+    private void checkWinner()
+    {
+        Player potentialWinner = null;
+        Iterator iter = gameActivity.getPlayers().values().iterator();
+        while (iter.hasNext())
+        {
+            Player p = (Player) iter.next();
+            if (!p.isDead())
+            {
+                if (potentialWinner==null)
+                {
+                    potentialWinner = p;
+                }
+                else if (p != potentialWinner)
+                {
+                    return;
+                }
+            }
+        }
+
+        if (potentialWinner != null)
+        {
+            potentialWinner.displayWinner();
+            potentialWinner.getWinner().startAnimation(winnerAnim);
+        }
     }
 }
 

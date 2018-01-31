@@ -532,6 +532,7 @@ public class GameActivity extends AppCompatActivity {
         while (iter.hasNext()) {
             Player p = (Player) iter.next();
             p.resetLife(life);
+            p.hideWinner();
         }
     }
 

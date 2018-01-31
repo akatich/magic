@@ -9,7 +9,6 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,7 +30,7 @@ public class Player {
     protected ImageView parcheminHaut;
     protected ImageView parcheminMilieu;
     protected ImageView parcheminBas;
-    protected ImageView arrow;
+    protected ImageView winner;
     protected MyGestureListener scoreGestureListener;
     protected boolean isDead = false;
     protected float posNameY;
@@ -74,6 +73,7 @@ public class Player {
         createAvatar(playerName, layoutWidth);
         createScore(layoutHeight);
         createPoison(layoutWidth, layoutHeight, nbOfPlayers);
+        createWinner(layoutWidth);
 
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ABOVE, name.getId());
         ((RelativeLayout.LayoutParams) claws.getLayoutParams()).addRule(RelativeLayout.ALIGN_LEFT, name.getId());
@@ -190,6 +190,20 @@ public class Player {
         poisonImage.setImageResource(R.drawable.flacon_poison);
     }
 
+    protected void createWinner(int layoutWidth)
+    {
+        winner = new ImageView(gameActivity);
+        winner.setId(View.generateViewId());
+        winner.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT));
+        ((RelativeLayout.LayoutParams) winner.getLayoutParams()).addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        winner.setImageResource(gameActivity.getResources().getIdentifier("winner", "drawable", gameActivity.getApplicationContext().getPackageName()) );
+        winner.setVisibility(View.INVISIBLE);
+        ((RelativeLayout.LayoutParams) winner.getLayoutParams()).width = (int) (layoutWidth * 0.7);
+        ((RelativeLayout.LayoutParams) winner.getLayoutParams()).height = ((RelativeLayout.LayoutParams) winner.getLayoutParams()).width;
+    }
+
     public void attachToLayout(RelativeLayout relativeLayout)
     {
         relativeLayout.addView(name);
@@ -197,6 +211,7 @@ public class Player {
         relativeLayout.addView(score);
         relativeLayout.addView(poison);
         relativeLayout.addView(poisonImage);
+        relativeLayout.addView(winner);
         if (!Preferences.getPreferences().hasPoison())
         {
             hidePoison();
@@ -220,6 +235,17 @@ public class Player {
         score.setText(Integer.toString(life));
         scoreGestureListener.startHealAnimation();
     }
+
+    public void displayWinner()
+    {
+        winner.setVisibility(View.VISIBLE);
+    }
+
+    public void hideWinner()
+    {
+        winner.setVisibility(View.INVISIBLE);
+    }
+
 
     public void die()
     {
@@ -298,12 +324,12 @@ public class Player {
         this.scoreGestureListener = scoreGestureListener;
     }
 
-    public ImageView getArrow() {
-        return arrow;
+    public ImageView getWinner() {
+        return winner;
     }
 
-    public void setArrow(ImageView arrow) {
-        this.arrow = arrow;
+    public void setWinner(ImageView winner) {
+        this.winner = winner;
     }
 
     public boolean isDead() {
