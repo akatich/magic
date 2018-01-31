@@ -34,6 +34,7 @@ public class Player {
     protected ImageView arrow;
     protected MyGestureListener scoreGestureListener;
     protected boolean isDead = false;
+    protected float posNameY;
 
 
     public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView parcheminHaut, ImageView parcheminMilieu, ImageView parcheminBas, ImageView stars, ImageView claws)
@@ -311,5 +312,13 @@ public class Player {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public float getPosNameY() {
+        return posNameY;
+    }
+
+    public void setPosNameY(float posNameY) {
+        this.posNameY = posNameY;
     }
 }

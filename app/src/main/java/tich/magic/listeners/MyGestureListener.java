@@ -123,7 +123,8 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         });
         objectAnimator.start();
 
-        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getParcheminHaut().getHeight() + player.getParcheminMilieu().getHeight() - 100);
+//        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getParcheminHaut().getHeight() + player.getParcheminMilieu().getHeight() - 100);
+        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getPosNameY());
         nameAnimator.setDuration(2000);
         nameAnimator.start();
 
@@ -194,6 +195,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
     public void die()
     {
+        player.setPosNameY(player.getName().getY());
         player.getParcheminMilieu().startAnimation(rollParcheminMilieuAnim);
 
         ObjectAnimator avatarAnimator = ObjectAnimator.ofFloat ( player.getAvatar() , "alpha" , 0);
