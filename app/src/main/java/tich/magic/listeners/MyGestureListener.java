@@ -67,6 +67,11 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
                 updateLife("+", 1);
             else if (lifeOrPoison == POISON)
                 updatePoison("+", 1);
+            else if (lifeOrPoison == NAME && !player.isDead())
+            {
+                // fermer le parchemin
+                die();
+            }
             return false; // Bottom to top
         }
         else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY)
@@ -75,7 +80,7 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
                 updateLife("-", 1);
             else if (lifeOrPoison == POISON)
                 updatePoison("-", 1);
-            else if (lifeOrPoison == NAME)
+            else if (lifeOrPoison == NAME && player.isDead())
             {
                 // déplier le parchemin
                 openParchemin();
