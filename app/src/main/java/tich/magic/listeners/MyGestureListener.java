@@ -32,7 +32,6 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
     private Animation damageAnim;
     private Animation rollParcheminMilieuAnim;
     private Animation openParcheminMilieuAnim;
-    private Animation winnerAnim;
     private ImageView healView;
     private ImageView damageView;
     private int lifeOrPoison;
@@ -61,8 +60,6 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         openParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.open_parchemin_milieu);
         openParcheminMilieuAnim.setAnimationListener(new ResurrectAnimationListener(player.getParcheminMilieu(), sp, gameActivity));
-
-        winnerAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.winner);
     }
 
     @Override
@@ -264,7 +261,6 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         if (potentialWinner != null)
         {
             potentialWinner.displayWinner();
-            potentialWinner.getWinner().startAnimation(winnerAnim);
         }
     }
 }

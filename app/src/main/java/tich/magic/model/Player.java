@@ -9,6 +9,8 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public class Player {
     protected MyGestureListener scoreGestureListener;
     protected boolean isDead = false;
     protected float posNameY;
+    protected Animation winnerAnim;
 
 
     public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView parcheminHaut, ImageView parcheminMilieu, ImageView parcheminBas, ImageView stars, ImageView claws)
@@ -115,6 +118,8 @@ public class Player {
                 return true;
             }
         });
+
+        winnerAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.winner);
     }
 
     protected void createName(String playerName, int nbOfPlayers)
@@ -239,6 +244,8 @@ public class Player {
     public void displayWinner()
     {
         winner.setVisibility(View.VISIBLE);
+        winner.startAnimation(winnerAnim);
+
     }
 
     public void hideWinner()
