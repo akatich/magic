@@ -357,9 +357,18 @@ public class GameActivity extends AppCompatActivity {
             case R.id.action_options:
                 changeOptions();
                 return true;
+            case R.id.action_stats:
+                displayStats();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void displayStats()
+    {
+        StatsDialog dialog = new StatsDialog(this);
+        dialog.show(getSupportFragmentManager(), "sd");
     }
 
 

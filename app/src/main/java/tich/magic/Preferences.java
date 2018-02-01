@@ -4,22 +4,32 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
+import tich.magic.model.Player;
+import tich.magic.model.Stats;
+
 public class Preferences {
 
     private static SharedPreferences sharedPreferences = null;
     private static Preferences myPreferences = null;
     private final static String PLAYER_NAMES = "tich.magic.player_names";
+    private final static String PLAYER_STATS = "tich.magic.player_stats";
     private final static String OPTION_SOUND = "tich.magic.sound";
     private final static String OPTION_POISON = "tich.magic.poison";
     private String playerNames;
     private boolean sound;
     private boolean poison;
+    private HashMap playerStats;
 
     private Preferences()
     {
         playerNames = loadPlayerNames();
         sound = loadOptionSound();
         poison = loadOptionPoison();
+        loadPlayerStats();
+        //resetStats();
     }
 
     public static synchronized Preferences getPreferences()
@@ -31,7 +41,8 @@ public class Preferences {
 
     public static Preferences getPreferences(Activity activity)
     {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        if (sharedPreferences == null)
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
         return getPreferences();
     }
 
@@ -93,5 +104,63 @@ public class Preferences {
     public boolean hasPoison()
     {
         return poison;
+    }
+
+    private void loadPlayerStats()
+    {
+        // stats are stored under format : PLAYER_STATS_playerName = totalGamesPlayed;totalGamesWon
+        playerStats = new HashMap();
+        for (String playerName : getPlayerNames().split(";"))
+        {
+            String[] statsArray = sharedPreferences.getString(PLAYER_STATS + "_" + playerName.toLowerCase(), "0;0").split(";");
+            Stats stats = new Stats();
+            stats.setTotalGamesPlayed(Integer.parseInt(statsArray[0]));
+            stats.setTotalGamesWon(Integer.parseInt(statsArray[1]));
+            playerStats.put(playerName.toLowerCase(), stats);
+        }
+    }
+
+    public HashMap getPlayerStats()
+    {
+        return playerStats;
+    }
+
+    public void updatePlayerStats(HashMap players)
+    {
+        Iterator iter = players.keySet().iterator();
+        while (iter.hasNext())
+        {
+            String playerName = (String) iter.next();
+            playerName = playerName.toLowerCase();
+            Player p = (Player) players.get(playerName);
+
+            Stats stats = (Stats) playerStats.get(playerName);
+            if (stats == null)
+                stats = new Stats();
+            stats.setTotalGamesPlayed(stats.getTotalGamesPlayed() + 1);
+            if (!p.isDead())
+            {
+                stats.setTotalGamesWon(stats.getTotalGamesWon() + 1);
+            }
+            savePlayerStats(playerName, stats);
+        }
+    }
+
+    private void savePlayerStats(String playerName, Stats stats)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PLAYER_STATS + "_" + playerName, stats.getTotalGamesPlayed() + ";" + stats.getTotalGamesWon());
+        editor.commit();
+        playerStats.put(playerName, stats);
+    }
+
+    private void resetStats()
+    {
+        for (String playerName : getPlayerNames().split(";"))
+        {
+            String[] statsArray = sharedPreferences.getString(PLAYER_STATS + "_" + playerName.toLowerCase(), "0;0").split(";");
+            Stats stats = new Stats();
+            playerStats.put(playerName.toLowerCase(), stats);
+        }
     }
 }

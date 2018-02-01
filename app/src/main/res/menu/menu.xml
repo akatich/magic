@@ -16,5 +16,10 @@
         android:icon="@drawable/clef"
         android:title="@string/options"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_stats"
+        android:icon="@drawable/winner"
+        android:title="@string/stats"
+        app:showAsAction="ifRoom" />
 
 </menu>

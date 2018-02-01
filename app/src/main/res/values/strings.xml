@@ -9,4 +9,5 @@
     <string name="sound">Son</string>
     <string name="poison">Poison</string>
     <string name="score">Vie</string>
+    <string name="stats">Statistiques</string>
 </resources>

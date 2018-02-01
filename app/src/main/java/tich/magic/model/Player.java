@@ -245,7 +245,7 @@ public class Player {
     {
         winner.setVisibility(View.VISIBLE);
         winner.startAnimation(winnerAnim);
-
+        Preferences.getPreferences(gameActivity).updatePlayerStats(gameActivity.getPlayers());
     }
 
     public void hideWinner()
