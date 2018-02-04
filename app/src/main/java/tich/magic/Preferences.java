@@ -161,6 +161,7 @@ public class Preferences {
             String[] statsArray = sharedPreferences.getString(PLAYER_STATS + "_" + playerName.toLowerCase(), "0;0").split(";");
             Stats stats = new Stats();
             playerStats.put(playerName.toLowerCase(), stats);
+            savePlayerStats(playerName.toLowerCase(), stats);
         }
     }
 }
