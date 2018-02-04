@@ -31,7 +31,6 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
     private Animation healAnim;
     private Animation damageAnim;
     private Animation rollParcheminMilieuAnim;
-    private Animation openParcheminMilieuAnim;
     private ImageView healView;
     private ImageView damageView;
     private int lifeOrPoison;
@@ -57,9 +56,6 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         rollParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.close_parchemin_milieu);
         rollParcheminMilieuAnim.setAnimationListener(new RipAnimationListener(player.getParcheminMilieu(), sp, gameActivity));
-
-        openParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.open_parchemin_milieu);
-        openParcheminMilieuAnim.setAnimationListener(new ResurrectAnimationListener(player.getParcheminMilieu(), sp, gameActivity));
     }
 
     @Override
@@ -86,53 +82,13 @@ public class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
             else if (lifeOrPoison == NAME && player.isDead())
             {
                 // déplier le parchemin
-                openParchemin();
+                player.openParchemin();
             }
             return false; // Top to bottom
         }
         return false;
     }
 
-    private void openParchemin()
-    {
-        player.getParcheminMilieu().startAnimation(openParcheminMilieuAnim);
-
-        ObjectAnimator avatarAnimator = ObjectAnimator.ofFloat ( player.getAvatar() , "alpha" , 1);
-        avatarAnimator.setDuration(2000);
-        avatarAnimator.start();
-
-        final boolean hasPoison = Preferences.getPreferences().hasPoison();
-
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat ( player.getParcheminBas() , "y" , player.getParcheminHaut().getHeight() + player.getParcheminMilieu().getHeight());
-        objectAnimator.setDuration(2000);
-        objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator updatedAnimation) {
-                float animatedValue = (float)updatedAnimation.getAnimatedValue();
-
-                int poisonTop = ((RelativeLayout.LayoutParams)player.getPoison().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)player.getPoison().getLayoutParams()).height/2;
-                if (hasPoison && animatedValue >= poisonTop) {
-                    player.getPoison().setVisibility(View.VISIBLE);
-                    player.getPoisonImage().setVisibility(View.VISIBLE);
-                }
-
-                int scoreTop = ((RelativeLayout.LayoutParams)player.getScore().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)player.getScore().getLayoutParams()).height/2;
-                if (animatedValue >= scoreTop) {
-                    player.getScore().setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-        objectAnimator.start();
-
-//        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getParcheminHaut().getHeight() + player.getParcheminMilieu().getHeight() - 100);
-        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( player.getName() , "y" , player.getPosNameY());
-        nameAnimator.setDuration(2000);
-        nameAnimator.start();
-
-        player.setDead(false);
-    }
 
     public void updateLife(String operand, int addedLife)
     {

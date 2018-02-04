@@ -42,6 +42,7 @@ import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ViewFlipper;
 
+import tich.magic.listeners.ResurrectAnimationListener;
 import tich.magic.model.Player;
 import tich.magic.model.Troll;
 
@@ -541,7 +542,6 @@ public class GameActivity extends AppCompatActivity {
         while (iter.hasNext()) {
             Player p = (Player) iter.next();
             p.resetLife(life);
-            p.hideWinner();
         }
     }
 

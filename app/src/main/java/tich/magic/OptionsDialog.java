@@ -18,7 +18,6 @@ import android.widget.ToggleButton;
 public class OptionsDialog extends DialogFragment {
 
     private GameActivity activity;
-    private int previousStartLife;
     private int selectedStartLife;
     private SoundPool sp;
     private int selectSound;
@@ -35,9 +34,6 @@ public class OptionsDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        previousStartLife = activity.getStartLife();
-        selectedStartLife = activity.getStartLife();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -95,6 +91,7 @@ public class OptionsDialog extends DialogFragment {
             imgPoison.setImageResource(R.drawable.sans_flacon_poison);
         }
 
+        selectedStartLife = 0;
         final Button buttonLife5 = optView.findViewById(R.id.btn_life_5);
         final Button buttonLife20 = optView.findViewById(R.id.btn_life_20);
         final Button buttonLife30 = optView.findViewById(R.id.btn_life_30);
@@ -134,24 +131,6 @@ public class OptionsDialog extends DialogFragment {
                     sp.play(selectSound, 1, 1, 1, 0, 1f);
             }
         });
-        switch (previousStartLife)
-        {
-            case 5:
-                buttonLife5.setBackgroundResource(R.drawable.button);
-                buttonLife20.setBackgroundResource(R.drawable.button_inactive);
-                buttonLife30.setBackgroundResource(R.drawable.button_inactive);
-                break;
-            case 20:
-                buttonLife5.setBackgroundResource(R.drawable.button_inactive);
-                buttonLife20.setBackgroundResource(R.drawable.button);
-                buttonLife30.setBackgroundResource(R.drawable.button_inactive);
-                break;
-            case 30:
-                buttonLife5.setBackgroundResource(R.drawable.button_inactive);
-                buttonLife20.setBackgroundResource(R.drawable.button_inactive);
-                buttonLife30.setBackgroundResource(R.drawable.button);
-                break;
-        }
 
         dialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -172,11 +151,9 @@ public class OptionsDialog extends DialogFragment {
                     activity.hidePoison();
                 }
 
-                if (selectedStartLife != previousStartLife)
+                if (selectedStartLife != 0)
                 {
                     activity.resetLife(selectedStartLife);
-                    activity.setStartLife(selectedStartLife);
-                    previousStartLife = selectedStartLife;
                 }
             }
         });

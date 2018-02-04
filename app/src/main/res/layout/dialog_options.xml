@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="100dp"
-                android:text="@string/score" />
+                android:text="Restart" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

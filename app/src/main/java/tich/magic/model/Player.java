@@ -1,5 +1,7 @@
 package tich.magic.model;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -19,6 +21,7 @@ import tich.magic.GameActivity;
 import tich.magic.Preferences;
 import tich.magic.R;
 import tich.magic.listeners.MyGestureListener;
+import tich.magic.listeners.ResurrectAnimationListener;
 
 public class Player {
 
@@ -37,6 +40,7 @@ public class Player {
     protected boolean isDead = false;
     protected float posNameY;
     protected Animation winnerAnim;
+    protected Animation openParcheminMilieuAnim;
 
 
     public Player(GameActivity gameActivity, String playerName, Context context, SoundPool sp, int nbOfPlayers, int layoutWidth, int layoutHeight, ImageView parcheminHaut, ImageView parcheminMilieu, ImageView parcheminBas, ImageView stars, ImageView claws)
@@ -48,6 +52,9 @@ public class Player {
         this.parcheminBas = parcheminBas;
 
         createPlayerElements(playerName, nbOfPlayers, layoutWidth, layoutHeight, sp, stars, claws);
+
+        openParcheminMilieuAnim = AnimationUtils.loadAnimation(gameActivity, R.anim.open_parchemin_milieu);
+        openParcheminMilieuAnim.setAnimationListener(new ResurrectAnimationListener(getParcheminMilieu(), sp, gameActivity));
 
         /*
         name.setTag(playerName);
@@ -239,6 +246,11 @@ public class Player {
     {
         score.setText(Integer.toString(life));
         scoreGestureListener.startHealAnimation();
+        hideWinner();
+        if (isDead())
+        {
+            openParchemin();
+        }
     }
 
     public void displayWinner()
@@ -252,6 +264,47 @@ public class Player {
     {
         winner.setVisibility(View.INVISIBLE);
     }
+
+    public void openParchemin()
+    {
+        getParcheminMilieu().startAnimation(openParcheminMilieuAnim);
+
+        ObjectAnimator avatarAnimator = ObjectAnimator.ofFloat ( getAvatar() , "alpha" , 1);
+        avatarAnimator.setDuration(2000);
+        avatarAnimator.start();
+
+        final boolean hasPoison = Preferences.getPreferences().hasPoison();
+
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat ( getParcheminBas() , "y" , getParcheminHaut().getHeight() + getParcheminMilieu().getHeight());
+        objectAnimator.setDuration(2000);
+        objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator updatedAnimation) {
+                float animatedValue = (float)updatedAnimation.getAnimatedValue();
+
+                int poisonTop = ((RelativeLayout.LayoutParams)getPoison().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)getPoison().getLayoutParams()).height/2;
+                if (hasPoison && animatedValue >= poisonTop) {
+                    getPoison().setVisibility(View.VISIBLE);
+                    getPoisonImage().setVisibility(View.VISIBLE);
+                }
+
+                int scoreTop = ((RelativeLayout.LayoutParams)getScore().getLayoutParams()).topMargin + ((RelativeLayout.LayoutParams)getScore().getLayoutParams()).height/2;
+                if (animatedValue >= scoreTop) {
+                    getScore().setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+        objectAnimator.start();
+
+        ObjectAnimator nameAnimator = ObjectAnimator.ofFloat ( getName() , "y" , getPosNameY());
+        nameAnimator.setDuration(2000);
+        nameAnimator.start();
+
+        setDead(false);
+    }
+
 
 
     public void die()
